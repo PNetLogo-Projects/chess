@@ -1,0 +1,4 @@
+to rook-mark-valid-move-spots 
+  pieces-mark-horizontal
+  pieces-mark-vertical
+end
