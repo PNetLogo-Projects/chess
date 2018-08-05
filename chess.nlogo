@@ -1,6 +1,6 @@
 __includes [
   "board.nls"
-
+  "pieces.nls"
 ]
 @#$#@#$#@
 GRAPHICS-WINDOW
