@@ -1,4 +1,7 @@
+__includes [
+  "board.nls"
 
+]
 @#$#@#$#@
 GRAPHICS-WINDOW
 21
