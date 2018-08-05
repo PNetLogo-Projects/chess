@@ -1,0 +1,32 @@
+breed [pawns pawn]
+breed [rooks rook]
+breed [knights knight]
+breed [bishops bishop]
+breed [queens queen]
+breed [kings king]
+
+to render-pieces
+  render-pieces-of-type pawns [0 1 2 3 4 5 6 7] [1 6]
+  foreach (list (list rooks   [0 7] [0 7])
+                (list knights [1 6] [0 7])
+                (list bishops [2 5] [0 7])
+                (list queens  [3] [0 7])
+                (list kings   [4] [0 7]))
+  [
+    piece-data -> (render-pieces-of-type (item 0 piece-data) (item 1 piece-data) (item 2 piece-data))
+  ]
+end
+
+to render-pieces-of-type [piece-type piece-xcors piece-ycors]
+  ask patches with [member? pxcor piece-xcors and member? pycor piece-ycors]
+  [
+    sprout 1
+    [
+      set breed piece-type
+      ifelse ycor < 2
+      [set color white]
+      [set color black]
+      set shape (word piece-type)
+    ]
+  ]
+end
