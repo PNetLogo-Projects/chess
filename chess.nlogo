@@ -1,6 +1,12 @@
 __includes [
   "board.nls"
   "pieces.nls"
+
+  "rook.nls"
+  "knight.nls"
+  "bishop.nls"
+  "queen.nls"
+  "king.nls"
 ]
 
 patches-own [orig-color marked?]
