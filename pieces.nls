@@ -30,3 +30,95 @@ to render-pieces-of-type [piece-type piece-xcors piece-ycors]
     ]
   ]
 end
+
+to pieces-mark-horizontal
+  let left-direction -1
+  let right-direction 1
+  pieces-mark-one-way-horizontal left-direction
+  pieces-mark-one-way-horizontal right-direction
+end
+
+to pieces-mark-one-way-horizontal [direction]
+  let blocked? false
+  let next-xcor (xcor + direction)
+  while [not blocked? and next-xcor >= 0 and next-xcor <= 7]
+  [
+    ifelse not any? turtles with [xcor = next-xcor and ycor = [ycor] of myself]
+    [
+      ask patch-at next-xcor ycor
+      [set marked? true]
+    ]
+    [set blocked? true]
+    set next-xcor (next-xcor + direction)
+  ]  
+end
+
+to pieces-mark-vertical
+  let down-direction -1
+  let up-direction 1
+  pieces-mark-one-way-vertical down-direction
+  pieces-mark-one-way-vertical up-direction
+end
+
+to pieces-mark-one-way-vertical [direction]
+  let blocked? false
+  let next-ycor (ycor + direction)
+  while [not blocked? and next-ycor >= 0 and next-ycor <= 7]
+  [
+    ifelse not any? turtles with [xcor = [xcor] of myself and ycor = next-ycor]
+    [
+      ask patch-at xcor next-ycor
+      [set marked? true]
+    ]
+    [set blocked? true]
+    set next-ycor (next-ycor + direction)
+  ]
+end
+
+to pieces-mark-major-diagonal
+  let lower-left-direction -1
+  let upper-right-direction 1
+  pieces-mark-one-way-major-diagonal lower-left-direction
+  pieces-mark-one-way-major-diagonal upper-right-direction
+end
+
+to pieces-mark-one-way-major-diagonal [direction]
+  let blocked? false
+  let next-xcor (xcor + direction)
+  let next-ycor (ycor + direction)
+  while [not blocked? and next-xcor >= 0 and next-xcor <= 7 and next-ycor >= 0 and next-ycor <= 7]
+  [
+    ifelse not any? turtles with [xcor = next-xcor and ycor = next-ycor]
+    [
+      ask patch-at next-xcor next-ycor
+      [set marked? true]
+    ]
+    [set blocked? true]
+    set next-xcor (next-xcor + direction)
+    set next-ycor (next-ycor + direction)
+  ] 
+end
+
+to pieces-mark-minor-diagonal
+  let upper-left-direction -1
+  let lower-right-direction 1
+  pieces-mark-one-way-minor-diagonal upper-left-direction
+  pieces-mark-one-way-minor-diagonal lower-right-direction
+end
+
+to pieces-mark-one-way-minor-diagonal [direction]
+  let blocked? false
+  let next-xcor (xcor + direction)
+  let next-ycor (ycor - direction)
+  while [not blocked? and next-xcor >= 0 and next-xcor <= 7 and next-ycor >= 0 and next-ycor <= 7]
+  [
+    ifelse not any? turtles with [xcor = next-xcor and ycor = next-ycor]
+    [
+      ask patch-at next-xcor next-ycor
+      [set marked? true]
+    ]
+    [set blocked? true]
+    set next-xcor (next-xcor + direction)
+    set next-ycor (next-ycor - direction)
+  ] 
+end
