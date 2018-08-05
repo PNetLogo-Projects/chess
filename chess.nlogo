@@ -2,6 +2,8 @@ __includes [
   "board.nls"
   "pieces.nls"
 ]
+
+patches-own [orig-color marked?]
 @#$#@#$#@
 GRAPHICS-WINDOW
 21
