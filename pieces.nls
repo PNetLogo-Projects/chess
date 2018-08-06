@@ -45,7 +45,7 @@ to pieces-mark-one-way-horizontal [direction]
   [
     ifelse not any? turtles with [xcor = next-xcor and ycor = [ycor] of myself]
     [
-      ask patch-at next-xcor ycor
+      ask patch-at (next-xcor - xcor) 0
       [set marked? true]
     ]
     [set blocked? true]
@@ -67,7 +67,7 @@ to pieces-mark-one-way-vertical [direction]
   [
     ifelse not any? turtles with [xcor = [xcor] of myself and ycor = next-ycor]
     [
-      ask patch-at xcor next-ycor
+      ask patch-at 0 (next-ycor - ycor)
       [set marked? true]
     ]
     [set blocked? true]
@@ -90,7 +90,7 @@ to pieces-mark-one-way-major-diagonal [direction]
   [
     ifelse not any? turtles with [xcor = next-xcor and ycor = next-ycor]
     [
-      ask patch-at next-xcor next-ycor
+      ask patch-at (next-xcor - xcor) (next-ycor - ycor)
       [set marked? true]
     ]
     [set blocked? true]
@@ -114,7 +114,7 @@ to pieces-mark-one-way-minor-diagonal [direction]
   [
     ifelse not any? turtles with [xcor = next-xcor and ycor = next-ycor]
     [
-      ask patch-at next-xcor next-ycor
+      ask patch-at (next-xcor - xcor) (next-ycor - ycor)
       [set marked? true]
     ]
     [set blocked? true]
