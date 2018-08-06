@@ -1,0 +1,4 @@
+to bishop-mark-valid-move-spots 
+  ;pieces-mark-major-diagonal
+  pieces-mark-minor-diagonal
+end
