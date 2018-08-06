@@ -1,14 +1,5 @@
 to knight-mark-valid-move-spots
-  foreach (list 
-    [-2 1]
-    [1 -2]
-    [1 2]
-    [2 1]
-    [2 -1]
-    [-1 2]
-    [-1 -2]
-    [-2 -1]
-    ) [
+  foreach (list [-2 1] [1 -2] [1 2] [2 1] [2 -1] [-1 2] [-1 -2] [-2 -1]) [
     offset-list ->
     
     let xoffset (item 0 offset-list)
