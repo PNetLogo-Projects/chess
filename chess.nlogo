@@ -7,6 +7,7 @@ __includes [
   "bishop.nls"
   "queen.nls"
   "king.nls"
+  "pawn.nls"
 ]
 
 patches-own [orig-color marked?]
