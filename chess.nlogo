@@ -10,7 +10,19 @@ __includes [
   "pawn.nls"
 ]
 
+globals [
+  pieces-left-direction
+  pieces-right-direction
+  pieces-up-direction
+  pieces-down-direction
+  pieces-same-direction
+]
+
 patches-own [orig-color marked?]
+
+to initialize-constants
+  pieces-initialize-constants
+end
 @#$#@#$#@
 GRAPHICS-WINDOW
 21
