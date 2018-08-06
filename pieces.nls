@@ -5,6 +5,14 @@ breed [bishops bishop]
 breed [queens queen]
 breed [kings king]
 
+to pieces-initialize-constants
+  set pieces-left-direction -1
+  set pieces-right-direction 1
+  set pieces-down-direction -1
+  set pieces-up-direction 1
+  set pieces-same-direction 0
+end
+
 to render-pieces
   render-pieces-of-type pawns [0 1 2 3 4 5 6 7] [1 6]
   foreach (list (list rooks   [0 7] [0 7])
@@ -32,121 +40,45 @@ to render-pieces-of-type [piece-type piece-xcors piece-ycors]
 end
 
 to pieces-mark-horizontal
-  let left-direction -1
-  let right-direction 1
-  pieces-mark-one-way-horizontal left-direction
-  pieces-mark-one-way-horizontal right-direction
-end
-
-to pieces-mark-one-way-horizontal [direction]
-  let blocked? false
-  let next-xcor (xcor + direction)
-  while [not blocked? and next-xcor >= 0 and next-xcor <= 7]
-  [
-    ifelse not any? turtles with [xcor = next-xcor and ycor = [ycor] of myself]
-    [
-      ask patch-at (next-xcor - xcor) 0
-      [set marked? true]
-    ]
-    [
-      if any? (turtles-at (next-xcor - xcor) 0) with [color != [color] of myself]
-      [
-        ask patch-at (next-xcor - xcor) 0
-        [set marked? true]
-      ]
-      set blocked? true
-    ]
-    set next-xcor (next-xcor + direction)
-  ]  
+  pieces-mark-direction pieces-left-direction pieces-same-direction
+  pieces-mark-direction pieces-right-direction pieces-same-direction
 end
 
 to pieces-mark-vertical
-  let down-direction -1
-  let up-direction 1
-  pieces-mark-one-way-vertical down-direction
-  pieces-mark-one-way-vertical up-direction
-end
-
-to pieces-mark-one-way-vertical [direction]
-  let blocked? false
-  let next-ycor (ycor + direction)
-  while [not blocked? and next-ycor >= 0 and next-ycor <= 7]
-  [
-    ifelse not any? turtles with [xcor = [xcor] of myself and ycor = next-ycor]
-    [
-      ask patch-at 0 (next-ycor - ycor)
-      [set marked? true]
-    ]
-    [
-      if any? (turtles-at 0 (next-ycor - ycor)) with [color != [color] of myself]
-      [
-        ask patch-at 0 (next-ycor - ycor)
-        [set marked? true]
-      ]
-      set blocked? true
-    ]
-    set next-ycor (next-ycor + direction)
-  ]
+  pieces-mark-direction pieces-same-direction pieces-up-direction
+  pieces-mark-direction pieces-same-direction pieces-down-direction
 end
 
 to pieces-mark-major-diagonal
-  let lower-left-direction -1
-  let upper-right-direction 1
-  pieces-mark-one-way-major-diagonal lower-left-direction
-  pieces-mark-one-way-major-diagonal upper-right-direction
-end
-
-to pieces-mark-one-way-major-diagonal [direction]
-  let blocked? false
-  let next-xcor (xcor + direction)
-  let next-ycor (ycor + direction)
-  while [not blocked? and next-xcor >= 0 and next-xcor <= 7 and next-ycor >= 0 and next-ycor <= 7]
-  [
-    ifelse not any? turtles with [xcor = next-xcor and ycor = next-ycor]
-    [
-      ask patch-at (next-xcor - xcor) (next-ycor - ycor)
-      [set marked? true]
-    ]
-    [
-      if any? (turtles-at (next-xcor - xcor) (next-ycor - ycor)) with [color != [color] of myself]
-      [
-        ask patch-at (next-xcor - xcor) (next-ycor - ycor)
-        [set marked? true]
-      ]
-      set blocked? true
-    ]
-    set next-xcor (next-xcor + direction)
-    set next-ycor (next-ycor + direction)
-  ] 
+  pieces-mark-direction pieces-left-direction pieces-down-direction
+  pieces-mark-direction pieces-right-direction pieces-up-direction
 end
 
 to pieces-mark-minor-diagonal
-  let upper-left-direction -1
-  let lower-right-direction 1
-  pieces-mark-one-way-minor-diagonal upper-left-direction
-  pieces-mark-one-way-minor-diagonal lower-right-direction
+  pieces-mark-direction pieces-left-direction pieces-up-direction
+  pieces-mark-direction pieces-right-direction pieces-down-direction
 end
 
-to pieces-mark-one-way-minor-diagonal [direction]
+to pieces-mark-direction [initial-xoffset initial-yoffset]
   let blocked? false
-  let next-xcor (xcor + direction)
-  let next-ycor (ycor - direction)
-  while [not blocked? and next-xcor >= 0 and next-xcor <= 7 and next-ycor >= 0 and next-ycor <= 7]
+  let xoffset initial-xoffset
+  let yoffset initial-yoffset
+  while [not blocked? and (pieces-still-within-bounds? (xcor + xoffset) (ycor + yoffset))]
   [
-    ifelse not any? turtles with [xcor = next-xcor and ycor = next-ycor]
+    let turtles-at-offset (turtles-at xoffset yoffset)
+    if not any? turtles-at-offset or any? turtles-at-offset with [color != [color] of myself]
     [
-      ask patch-at (next-xcor - xcor) (next-ycor - ycor)
+      ask patch-at xoffset yoffset
       [set marked? true]
     ]
-    [
-      if any? (turtles-at (next-xcor - xcor) (next-ycor - ycor)) with [color != [color] of myself]
-      [
-        ask patch-at (next-xcor - xcor) (next-ycor - ycor)
-        [set marked? true]
-      ]
-      set blocked? true
-    ]
-    set next-xcor (next-xcor + direction)
-    set next-ycor (next-ycor - direction)
-  ] 
+    if any? turtles-at-offset
+    [set blocked? true]
+    
+    set xoffset (xoffset + initial-xoffset)
+    set yoffset (yoffset + initial-yoffset)
+  ]
+end
+
+to-report pieces-still-within-bounds? [new-xcor new-ycor]
+  report new-xcor >= 0 and new-xcor <= 7 and new-ycor >= 0 and new-ycor <= 7
 end
