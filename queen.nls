@@ -1,0 +1,6 @@
+to queen-mark-valid-move-spots 
+  pieces-mark-horizontal
+  pieces-mark-vertical
+  pieces-mark-major-diagonal
+  pieces-mark-minor-diagonal
+end
