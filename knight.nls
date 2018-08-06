@@ -1,0 +1,33 @@
+to knight-mark-valid-move-spots
+  foreach (list 
+    [-2 1]
+    [1 -2]
+    [1 2]
+    [2 1]
+    [2 -1]
+    [-1 2]
+    [-1 -2]
+    [-2 -1]
+    ) [
+    offset-list ->
+    
+    let xoffset (item 0 offset-list)
+    let yoffset (item 1 offset-list)
+    if (knight-is-valid-move? xoffset yoffset)
+    [
+      ask patch-at xoffset yoffset
+      [set marked? true]
+    ]
+  ]
+end
+
+to-report knight-is-valid-move? [xoffset yoffset]
+  let knight-xcor xcor + xoffset
+  let knight-ycor ycor + yoffset
+  let turtles-at-new-coordinates (turtles with [xcor = knight-xcor and ycor = knight-ycor])
+  
+  report (pieces-still-within-bounds? knight-xcor knight-ycor) and (
+    not any? turtles-at-new-coordinates or
+    count turtles-at-new-coordinates with [color != [color] of myself] > 0
+    )
+end
