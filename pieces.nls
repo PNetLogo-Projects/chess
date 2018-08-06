@@ -48,7 +48,14 @@ to pieces-mark-one-way-horizontal [direction]
       ask patch-at (next-xcor - xcor) 0
       [set marked? true]
     ]
-    [set blocked? true]
+    [
+      if any? (turtles-at (next-xcor - xcor) 0) with [color != [color] of myself]
+      [
+        ask patch-at (next-xcor - xcor) 0
+        [set marked? true]
+      ]
+      set blocked? true
+    ]
     set next-xcor (next-xcor + direction)
   ]  
 end
@@ -70,7 +77,14 @@ to pieces-mark-one-way-vertical [direction]
       ask patch-at 0 (next-ycor - ycor)
       [set marked? true]
     ]
-    [set blocked? true]
+    [
+      if any? (turtles-at 0 (next-ycor - ycor)) with [color != [color] of myself]
+      [
+        ask patch-at 0 (next-ycor - ycor)
+        [set marked? true]
+      ]
+      set blocked? true
+    ]
     set next-ycor (next-ycor + direction)
   ]
 end
@@ -93,7 +107,14 @@ to pieces-mark-one-way-major-diagonal [direction]
       ask patch-at (next-xcor - xcor) (next-ycor - ycor)
       [set marked? true]
     ]
-    [set blocked? true]
+    [
+      if any? (turtles-at (next-xcor - xcor) (next-ycor - ycor)) with [color != [color] of myself]
+      [
+        ask patch-at (next-xcor - xcor) (next-ycor - ycor)
+        [set marked? true]
+      ]
+      set blocked? true
+    ]
     set next-xcor (next-xcor + direction)
     set next-ycor (next-ycor + direction)
   ] 
@@ -117,7 +138,14 @@ to pieces-mark-one-way-minor-diagonal [direction]
       ask patch-at (next-xcor - xcor) (next-ycor - ycor)
       [set marked? true]
     ]
-    [set blocked? true]
+    [
+      if any? (turtles-at (next-xcor - xcor) (next-ycor - ycor)) with [color != [color] of myself]
+      [
+        ask patch-at (next-xcor - xcor) (next-ycor - ycor)
+        [set marked? true]
+      ]
+      set blocked? true
+    ]
     set next-xcor (next-xcor + direction)
     set next-ycor (next-ycor - direction)
   ] 
