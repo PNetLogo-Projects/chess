@@ -22,3 +22,11 @@ to color-patch-spot [colour save?]
   if save?
   [set orig-color pcolor]
 end
+
+to reset-marks
+  ask patches with [marked?]
+  [
+    set marked? false
+    set pcolor orig-color
+  ]
+end
