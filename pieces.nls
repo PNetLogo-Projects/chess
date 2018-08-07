@@ -5,6 +5,8 @@ breed [bishops bishop]
 breed [queens queen]
 breed [kings king]
 
+pawns-own [can-be-enpassanted?]
+
 to pieces-initialize-constants
   set pieces-left-direction -1
   set pieces-right-direction 1
@@ -40,6 +42,9 @@ to render-pieces-of-type [piece-type piece-xcors piece-ycors]
       [set color black]
       set shape (word piece-type)
       set moved? false
+      
+      if breed = pawns
+      [set can-be-enpassanted? false]
     ]
   ]
 end
