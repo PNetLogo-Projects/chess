@@ -39,6 +39,7 @@ to render-pieces-of-type [piece-type piece-xcors piece-ycors]
       [set color white]
       [set color black]
       set shape (word piece-type)
+      set moved? false
     ]
   ]
 end
