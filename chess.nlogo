@@ -19,6 +19,7 @@ globals [
 ]
 
 patches-own [orig-color marked?]
+turtles-own [moved?]
 
 to initialize-constants
   pieces-initialize-constants
