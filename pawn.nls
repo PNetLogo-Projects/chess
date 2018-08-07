@@ -22,4 +22,12 @@ to pawn-mark-valid-capture-spots [always-mark]
     if any? turtles-here with [color != my-color] or always-mark
     [set marked? true]
   ]
+  ask (patch-set (patch-left-and-ahead 90 1) (patch-right-and-ahead 90 1))
+  [
+    ask turtles-here with [can-be-enpassanted?]
+    [
+      ask (patch-set (patch-ahead -1)) with [not any? turtles-here]
+      [set marked? true]
+    ]
+  ]
 end
