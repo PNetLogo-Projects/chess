@@ -20,8 +20,12 @@ to render-pieces
                 (list bishops [2 5] [0 7])
                 (list queens  [3] [0 7])
                 (list kings   [4] [0 7]))
+  [piece-data -> (render-pieces-of-type (item 0 piece-data) (item 1 piece-data) (item 2 piece-data))]
+  ask turtles with [member? breed (list pawns rooks knights bishops queens kings)]
   [
-    piece-data -> (render-pieces-of-type (item 0 piece-data) (item 1 piece-data) (item 2 piece-data))
+    ifelse ycor < 4
+    [set heading 0]
+    [set heading 180]
   ]
 end
 
@@ -40,30 +44,30 @@ to render-pieces-of-type [piece-type piece-xcors piece-ycors]
 end
 
 to pieces-mark-horizontal
-  pieces-mark-direction pieces-left-direction pieces-same-direction
-  pieces-mark-direction pieces-right-direction pieces-same-direction
+  pieces-mark-direction pieces-left-direction pieces-same-direction 7
+  pieces-mark-direction pieces-right-direction pieces-same-direction 7
 end
 
 to pieces-mark-vertical
-  pieces-mark-direction pieces-same-direction pieces-up-direction
-  pieces-mark-direction pieces-same-direction pieces-down-direction
+  pieces-mark-direction pieces-same-direction pieces-up-direction 7
+  pieces-mark-direction pieces-same-direction pieces-down-direction 7
 end
 
 to pieces-mark-major-diagonal
-  pieces-mark-direction pieces-left-direction pieces-down-direction
-  pieces-mark-direction pieces-right-direction pieces-up-direction
+  pieces-mark-direction pieces-left-direction pieces-down-direction 7
+  pieces-mark-direction pieces-right-direction pieces-up-direction 7
 end
 
 to pieces-mark-minor-diagonal
-  pieces-mark-direction pieces-left-direction pieces-up-direction
-  pieces-mark-direction pieces-right-direction pieces-down-direction
+  pieces-mark-direction pieces-left-direction pieces-up-direction 7
+  pieces-mark-direction pieces-right-direction pieces-down-direction 7
 end
 
-to pieces-mark-direction [initial-xoffset initial-yoffset]
+to pieces-mark-direction [initial-xoffset initial-yoffset piece-range]
   let blocked? false
   let xoffset initial-xoffset
   let yoffset initial-yoffset
-  while [not blocked? and (pieces-still-within-bounds? (xcor + xoffset) (ycor + yoffset))]
+  while [not blocked? and piece-range > 0 and (pieces-still-within-bounds? (xcor + xoffset) (ycor + yoffset))]
   [
     let turtles-at-offset (turtles-at xoffset yoffset)
     if not any? turtles-at-offset or any? turtles-at-offset with [color != [color] of myself]
@@ -76,6 +80,7 @@ to pieces-mark-direction [initial-xoffset initial-yoffset]
     
     set xoffset (xoffset + initial-xoffset)
     set yoffset (yoffset + initial-yoffset)
+    set piece-range (piece-range - 1)
   ]
 end
 
