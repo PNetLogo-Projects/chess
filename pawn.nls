@@ -1,0 +1,23 @@
+to pawn-mark-valid-move-spots
+  if ycor = 1 and heading = 0
+  [pieces-mark-direction pieces-same-direction pieces-up-direction 2]
+  if ycor = 6 and heading = 180
+  [pieces-mark-direction pieces-same-direction pieces-down-direction 2]
+  ask turtles-on patch-ahead 2
+  [set marked? false]
+  if ycor != 1 and heading = 0
+  [pieces-mark-direction pieces-same-direction pieces-up-direction 1]
+  if ycor != 6 and heading = 180
+  [pieces-mark-direction pieces-same-direction pieces-down-direction 1]
+  pawn-mark-valid-capture-spots false
+end
+
+to pawn-mark-valid-capture-spots [always-mark]
+  let direction ((heading / -90) + 1)
+  let my-color  color
+  ask (patch-set (patch-at -1 direction) (patch-at 1 direction))
+  [
+    if any? turtles-here with [color != my-color] or always-mark
+    [set marked? true]
+  ]
+end
