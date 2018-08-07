@@ -2,7 +2,7 @@ to king-mark-valid-move-spots
   ask turtles with [color != [color] of myself]
   [
     if breed = pawns
-    [pawn-mark-valid-move-spots]
+    [pawn-mark-valid-capture-spots true]
     if breed = rooks
     [rook-mark-valid-move-spots]
     if breed = knights
