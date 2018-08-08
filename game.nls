@@ -7,3 +7,9 @@ to game-initialize-globals
   set game-turn game-white-turn
   set game-selected-piece nobody
 end
+
+to next-turn
+  ifelse game-turn = game-white-turn
+  [set game-turn game-black-turn]
+  [set game-turn game-white-turn]
+end
