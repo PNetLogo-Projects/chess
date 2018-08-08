@@ -1,0 +1,9 @@
+to game-initialize-constants
+  set game-white-turn white
+  set game-black-turn black
+end
+
+to game-initialize-globals
+  set game-turn game-white-turn
+  set game-selected-piece nobody
+end
