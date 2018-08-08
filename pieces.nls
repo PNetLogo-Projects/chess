@@ -71,6 +71,14 @@ end
 to pieces-mark-valid-captures
 end
 
+to pieces-assess-if-move-was-special
+  if breed = pawns
+  [
+    pawn-assess-can-be-enpassanted
+    pawn-assess-capture-by-enpassant
+  ]
+end
+
 to pieces-mark-horizontal
   pieces-mark-direction pieces-left-direction pieces-same-direction 7
   pieces-mark-direction pieces-right-direction pieces-same-direction 7

@@ -37,3 +37,24 @@ to pawn-mark-valid-capture-spots [always-mark]
     ]
   ]
 end
+
+to pawn-assess-can-be-enpassanted
+  if not moved?
+  [
+    if heading = 0 and ycor = 3
+    [set can-be-enpassanted? true]
+    if heading = 180 and ycor = 4
+    [set can-be-enpassanted? true]
+  ]
+end
+
+to pawn-assess-capture-by-enpassant
+  let pawns-behind-me (pawns-on patch-ahead -1)
+  if any? pawns-behind-me with [can-be-enpassanted? and color != [color] of myself]
+  [
+    ask pawns-behind-me
+    [die]
+  ]
+  ask other pawns
+  [set can-be-enpassanted? false]
+end

@@ -43,6 +43,7 @@ to handle-user-input
         ask game-selected-piece
         [
           setxy mouse-x mouse-y
+          pieces-assess-if-move-was-special
           set moved? true
           ask other turtles-here [die]
           sync-screen
