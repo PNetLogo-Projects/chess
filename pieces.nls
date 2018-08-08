@@ -84,24 +84,24 @@ to pieces-assess-if-move-was-special
   ]
 end
 
-to pieces-mark-horizontal
-  pieces-mark-direction pieces-left-direction pieces-same-direction 7
-  pieces-mark-direction pieces-right-direction pieces-same-direction 7
+to pieces-mark-horizontal [search-depth mark-obstacles]
+  pieces-mark-direction pieces-left-direction pieces-same-direction search-depth mark-obstacles
+  pieces-mark-direction pieces-right-direction pieces-same-direction search-depth mark-obstacles
 end
 
-to pieces-mark-vertical
-  pieces-mark-direction pieces-same-direction pieces-up-direction 7
-  pieces-mark-direction pieces-same-direction pieces-down-direction 7
+to pieces-mark-vertical [search-depth mark-obstacles]
+  pieces-mark-direction pieces-same-direction pieces-up-direction search-depth mark-obstacles
+  pieces-mark-direction pieces-same-direction pieces-down-direction search-depth mark-obstacles
 end
 
-to pieces-mark-major-diagonal
-  pieces-mark-direction pieces-left-direction pieces-down-direction 7
-  pieces-mark-direction pieces-right-direction pieces-up-direction 7
+to pieces-mark-major-diagonal [search-depth mark-obstacles]
+  pieces-mark-direction pieces-left-direction pieces-down-direction search-depth mark-obstacles
+  pieces-mark-direction pieces-right-direction pieces-up-direction search-depth mark-obstacles
 end
 
-to pieces-mark-minor-diagonal
-  pieces-mark-direction pieces-left-direction pieces-up-direction 7
-  pieces-mark-direction pieces-right-direction pieces-down-direction 7
+to pieces-mark-minor-diagonal [search-depth mark-obstacles]
+  pieces-mark-direction pieces-left-direction pieces-up-direction search-depth mark-obstacles
+  pieces-mark-direction pieces-right-direction pieces-down-direction search-depth mark-obstacles
 end
 
 to pieces-mark-direction [initial-xoffset initial-yoffset piece-range mark-obstacles]
