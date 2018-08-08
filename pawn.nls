@@ -20,12 +20,12 @@ to pawn-mark-valid-move-spots
   pawn-mark-valid-capture-spots false
 end
 
-to pawn-mark-valid-capture-spots [always-mark]
+to pawn-mark-valid-capture-spots [always-mark?]
   let direction ((heading / -90) + 1)
   let my-color  color
   ask (patch-set (patch-at -1 direction) (patch-at 1 direction))
   [
-    if any? turtles-here with [color != my-color] or always-mark
+    if any? turtles-here with [color != my-color] or always-mark?
     [set marked? true]
   ]
   ask (patch-set (patch-left-and-ahead 90 1) (patch-right-and-ahead 90 1))
