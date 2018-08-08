@@ -8,8 +8,11 @@ to pawn-mark-valid-move-spots
   [pieces-mark-direction pieces-same-direction pieces-up-direction 2]
   if not moved? and heading = 180
   [pieces-mark-direction pieces-same-direction pieces-down-direction 2]
-  ask turtles-on patch-ahead 2
-  [set marked? false]
+  if not moved?
+  [
+    ask turtles-on patch-ahead 2
+    [set marked? false]
+  ]
   
   pawn-mark-valid-capture-spots false
 end
@@ -24,7 +27,7 @@ to pawn-mark-valid-capture-spots [always-mark]
   ]
   ask (patch-set (patch-left-and-ahead 90 1) (patch-right-and-ahead 90 1))
   [
-    ask turtles-here with [can-be-enpassanted?]
+    ask pawns-here with [can-be-enpassanted?]
     [
       ask (patch-set (patch-ahead -1)) with [not any? turtles-here]
       [set marked? true]
