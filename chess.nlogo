@@ -18,6 +18,10 @@ globals [
   pieces-up-direction
   pieces-down-direction
   pieces-same-direction
+  pieces-always-mark-obstacles
+  pieces-mark-opposing-obstacles
+  pieces-never-mark-obstacles
+  pieces-max-search-depth
 
   game-white-turn
   game-black-turn

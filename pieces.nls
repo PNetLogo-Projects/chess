@@ -13,6 +13,11 @@ to pieces-initialize-constants
   set pieces-down-direction -1
   set pieces-up-direction 1
   set pieces-same-direction 0
+  
+  set pieces-always-mark-obstacles 0
+  set pieces-mark-opposing-obstacles 1
+  set pieces-never-mark-obstacles 2
+  set pieces-max-search-depth 7
 end
 
 to render-pieces
