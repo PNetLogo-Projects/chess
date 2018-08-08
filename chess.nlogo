@@ -18,6 +18,11 @@ globals [
   pieces-up-direction
   pieces-down-direction
   pieces-same-direction
+
+  game-white-turn
+  game-black-turn
+  game-selected-piece
+  game-turn
 ]
 
 patches-own [orig-color marked?]
