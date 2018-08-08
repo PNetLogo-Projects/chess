@@ -24,6 +24,10 @@ turtles-own [moved?]
 to initialize-constants
   pieces-initialize-constants
 end
+
+to sync-screen
+  wait .1
+end
 @#$#@#$#@
 GRAPHICS-WINDOW
 21
