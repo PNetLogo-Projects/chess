@@ -104,14 +104,15 @@ to pieces-mark-minor-diagonal
   pieces-mark-direction pieces-right-direction pieces-down-direction 7
 end
 
-to pieces-mark-direction [initial-xoffset initial-yoffset piece-range]
+to pieces-mark-direction [initial-xoffset initial-yoffset piece-range mark-obstacles]
   let blocked? false
   let xoffset initial-xoffset
   let yoffset initial-yoffset
   while [not blocked? and piece-range > 0 and (pieces-still-within-bounds? (xcor + xoffset) (ycor + yoffset))]
   [
     let turtles-at-offset (turtles-at xoffset yoffset)
-    if not any? turtles-at-offset or any? turtles-at-offset with [color != [color] of myself]
+    if (mark-obstacles = pieces-always-mark-obstacles) or not any? turtles-at-offset or (
+      (mark-obstacles = pieces-mark-opposing-obstacles) and any? turtles-at-offset with [color != [color] of myself])
     [
       ask patch-at xoffset yoffset
       [set marked? true]
