@@ -8,6 +8,53 @@ to game-initialize-globals
   set game-selected-piece nobody
 end
 
+to main-loop
+  let game-over false
+  let mouse-up? (not mouse-down?)
+
+  while [not game-over]
+  [
+    if not mouse-down?
+    [set mouse-up? true]
+    if mouse-inside? and mouse-down? and mouse-up? and mouse-xcor >= 0 and mouse-xcor <= 7
+    [
+      set mouse-up? false
+      handle-user-input
+    ]
+  ]
+end
+
+to handle-user-input
+  let mouse-x round mouse-xcor
+  let mouse-y round mouse-ycor
+  let patches-at-mouse-coordinates (patches with [pxcor = mouse-x and pycor = mouse-y])
+  
+  ask patches-at-mouse-coordinates
+  [
+    ifelse any? turtles-here with [color = game-turn]
+    [
+      set game-selected-piece one-of turtles-here
+      ask game-selected-piece
+      [pieces-mark-valid-moves]
+    ]
+    [
+      if marked?
+      [
+        ask game-selected-piece
+        [
+          setxy mouse-x mouse-y
+          set moved? true
+          ask other turtles-here [die]
+          sync-screen
+        ]
+        set game-selected-piece nobody
+        reset-marks
+        next-turn
+      ]
+    ]
+  ]
+end
+
 to next-turn
   ifelse game-turn = game-white-turn
   [set game-turn game-black-turn]
