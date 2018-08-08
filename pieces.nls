@@ -49,6 +49,28 @@ to render-pieces-of-type [piece-type piece-xcors piece-ycors]
   ]
 end
 
+to pieces-mark-valid-moves
+  reset-marks
+  if breed = pawns
+  [
+    pawn-mark-valid-move-spots
+    pawn-mark-valid-capture-spots false
+  ]
+  if breed = rooks
+  [rook-mark-valid-move-spots]
+  if breed = knights
+  [knight-mark-valid-move-spots]
+  if breed = bishops
+  [bishop-mark-valid-move-spots]
+  if breed = queens
+  [queen-mark-valid-move-spots]
+  if breed = kings
+  [king-mark-valid-move-spots]
+end
+
+to pieces-mark-valid-captures
+end
+
 to pieces-mark-horizontal
   pieces-mark-direction pieces-left-direction pieces-same-direction 7
   pieces-mark-direction pieces-right-direction pieces-same-direction 7
