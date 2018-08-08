@@ -1,4 +1,13 @@
 to rook-mark-valid-move-spots 
-  pieces-mark-horizontal
-  pieces-mark-vertical
+  pieces-mark-horizontal pieces-max-search-depth pieces-mark-opposing-obstacles
+  pieces-mark-vertical pieces-max-search-depth pieces-mark-opposing-obstacles
+end
+
+to rook-mark-valid-capture-spots [always-mark?]
+  ifelse always-mark?
+  [
+    pieces-mark-horizontal pieces-max-search-depth pieces-always-mark-obstacles
+    pieces-mark-vertical pieces-max-search-depth pieces-always-mark-obstacles
+  ]
+  [rook-mark-valid-move-spots]
 end

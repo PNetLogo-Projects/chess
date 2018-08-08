@@ -1,6 +1,6 @@
 to queen-mark-valid-move-spots 
-  pieces-mark-horizontal
-  pieces-mark-vertical
-  pieces-mark-major-diagonal
-  pieces-mark-minor-diagonal
+  pieces-mark-horizontal pieces-max-search-depth pieces-mark-opposing-obstacles
+  pieces-mark-vertical pieces-max-search-depth pieces-mark-opposing-obstacles
+  pieces-mark-major-diagonal pieces-max-search-depth pieces-mark-opposing-obstacles
+  pieces-mark-minor-diagonal pieces-max-search-depth pieces-mark-opposing-obstacles
 end
