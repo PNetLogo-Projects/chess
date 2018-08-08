@@ -29,7 +29,12 @@ patches-own [orig-color marked?]
 turtles-own [moved?]
 
 to initialize-constants
+  game-initialize-constants
   pieces-initialize-constants
+end
+
+to initialize-globals
+  game-initialize-globals
 end
 
 to sync-screen
