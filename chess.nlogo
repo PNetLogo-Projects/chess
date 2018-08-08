@@ -8,6 +8,8 @@ __includes [
   "queen.nls"
   "king.nls"
   "pawn.nls"
+
+  "game.nls"
 ]
 
 globals [
