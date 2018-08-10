@@ -4,3 +4,14 @@ to queen-mark-valid-move-spots
   pieces-mark-major-diagonal pieces-max-search-depth pieces-mark-opposing-obstacles
   pieces-mark-minor-diagonal pieces-max-search-depth pieces-mark-opposing-obstacles
 end
+
+to queen-mark-valid-capture-spots [always-mark?]
+  ifelse always-mark?
+  [
+    pieces-mark-horizontal pieces-max-search-depth pieces-always-mark-obstacles
+    pieces-mark-vertical pieces-max-search-depth pieces-always-mark-obstacles
+    pieces-mark-major-diagonal pieces-max-search-depth pieces-always-mark-obstacles
+    pieces-mark-minor-diagonal pieces-max-search-depth pieces-always-mark-obstacles
+  ]
+  [queen-mark-valid-move-spots]
+end
