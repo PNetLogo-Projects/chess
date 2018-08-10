@@ -1,10 +1,19 @@
 to knight-mark-valid-move-spots
+  let always-mark? false
+  knight-mark-move-spots always-mark?
+end
+
+to knight-mark-valid-capture-spots [always-mark?]
+  knight-mark-move-spots always-mark?
+end
+
+to knight-mark-move-spots [always-mark?]
   foreach (list [-2 1] [1 -2] [1 2] [2 1] [2 -1] [-1 2] [-1 -2] [-2 -1]) [
     offset-list ->
     
     let xoffset (item 0 offset-list)
     let yoffset (item 1 offset-list)
-    if (knight-is-valid-move? xoffset yoffset)
+    if always-mark? or (not always-mark? and (knight-is-valid-move? xoffset yoffset))
     [
       ask patch-at xoffset yoffset
       [set marked? true]
