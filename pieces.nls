@@ -54,6 +54,18 @@ to render-pieces-of-type [piece-type piece-xcors piece-ycors]
   ]
 end
 
+to-report pieces-valid-piece?
+  report member? breed (list pawns rooks knights bishops queens kings)
+end
+
+to-report pieces-enemies
+  report turtles with [color != [color] of myself and pieces-valid-piece?]
+end
+
+to-report pieces-allies
+  report turtles with [color = [color] of myself and pieces-valid-piece?]
+end
+
 to pieces-mark-valid-moves
   if breed = pawns
   [
