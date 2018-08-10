@@ -55,7 +55,6 @@ to render-pieces-of-type [piece-type piece-xcors piece-ycors]
 end
 
 to pieces-mark-valid-moves
-  reset-marks
   if breed = pawns
   [
     pawn-mark-valid-move-spots
@@ -73,7 +72,19 @@ to pieces-mark-valid-moves
   [king-mark-valid-move-spots]
 end
 
-to pieces-mark-valid-captures
+to pieces-mark-valid-captures [always-mark?]
+  if breed = pawns
+  [pawn-mark-valid-capture-spots always-mark?]
+  if breed = rooks
+  [rook-mark-valid-capture-spots always-mark?]
+  if breed = knights
+  [knight-mark-valid-capture-spots always-mark?]
+  if breed = bishops
+  [bishop-mark-valid-capture-spots always-mark?]
+  if breed = queens
+  [queen-mark-valid-capture-spots always-mark?]
+  if breed = kings
+  [king-mark-valid-capture-spots always-mark?]
 end
 
 to pieces-assess-if-move-was-special
