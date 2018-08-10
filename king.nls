@@ -80,3 +80,16 @@ to king-mark-valid-castle-spots
     ]
   ]
 end
+
+to king-assess-is-attempt-to-castle
+  if can-castle? and xcor = 2
+  [
+    ask rooks with [xcor = 0 and ycor = [ycor] of myself]
+    [set xcor 3]
+  ]
+  if can-castle? and xcor = 6
+  [
+    ask rooks with [xcor = 7 and ycor = [ycor] of myself]
+    [set xcor 5]
+  ]
+end
