@@ -6,6 +6,7 @@ breed [queens queen]
 breed [kings king]
 
 pawns-own [can-be-enpassanted?]
+kings-own [can-castle?]
 
 to pieces-initialize-constants
   set pieces-left-direction -1
