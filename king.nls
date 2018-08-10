@@ -21,6 +21,23 @@ to king-mark-valid-capture-spots [always-mark?]
   [king-mark-valid-move-spots]
 end
 
+to-report king-is-in-danger?
+  let always-mark? true
+  let king-is-in-danger false
+  save-marks-to-saved-marked
+  
+  ask kings with [color = game-turn]
+  [
+    ask pieces-enemies
+    [pieces-mark-valid-captures always-mark?]
+    if marked?
+    [set king-is-in-danger true]
+  ]
+  
+  load-marks-from-saved-marked
+  report king-is-in-danger
+end
+
 to-report get-rooks-that-can-castle
   if moved?
   [report []]
