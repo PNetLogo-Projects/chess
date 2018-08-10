@@ -65,6 +65,16 @@ to handle-user-input
   ]
 end
 
+to-report game-over-by-checkmate?
+  reset-marks
+  ask kings with [color = game-turn]
+  [
+    ask pieces-allies
+    [pieces-mark-valid-moves]
+  ]
+  report not any? patches with [marked?]
+end
+
 to advance-fifty-moves-rule-counter
   ifelse [breed] of game-last-moved-piece != pawns and not game-last-move-was-capture?
   [set game-fifty-moves-rule-counter (game-fifty-moves-rule-counter + 1)]
