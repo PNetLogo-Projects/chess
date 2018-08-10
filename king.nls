@@ -7,6 +7,7 @@ to king-mark-valid-move-spots
   let valid-move-spots neighbors with [not marked? and not any? turtles-here with [color = my-color]]
   reset-marks
 
+  king-mark-valid-castle-spots
   ask valid-move-spots
   [set marked? true]
 end
@@ -18,4 +19,64 @@ to king-mark-valid-capture-spots [always-mark?]
     [set marked? true]
   ]
   [king-mark-valid-move-spots]
+end
+
+to-report get-rooks-that-can-castle
+  if moved?
+  [report []]
+  
+  let always-mark? true
+  ask pieces-enemies
+  [pieces-mark-valid-captures always-mark?]
+  
+  let rooks-can-castle-list []
+  let possible-rooks (list 
+    (one-of rooks with [color = [color] of myself and not moved? and xcor = 0 and ycor = [ycor] of myself])
+    (one-of rooks with [color = [color] of myself and not moved? and xcor = 7 and ycor = [ycor] of myself]))
+  foreach possible-rooks
+  [
+    rook-candidate ->
+    
+    if rook-candidate != nobody
+    [
+      let rook-xcor [xcor] of rook-candidate
+      let spots-between-us []
+      
+      ifelse rook-xcor > xcor
+      [
+        let valid-xcors (range (rook-xcor - 1) xcor -1)
+        set spots-between-us patches with [member? pxcor valid-xcors and pycor = [ycor] of myself]
+      ]
+      [
+        let valid-xcors (range (rook-xcor + 1) xcor)
+        set spots-between-us patches with [member? pxcor valid-xcors and pycor = [ycor] of myself]
+      ]
+      if (all? spots-between-us [not any? turtles-here and not marked?])
+      [set rooks-can-castle-list (lput rook-candidate rooks-can-castle-list)]
+    ]
+  ]
+  reset-marks
+  report rooks-can-castle-list
+end
+
+to king-mark-valid-castle-spots
+  set can-castle? false
+  
+  let rooks-that-can-castle get-rooks-that-can-castle
+  foreach rooks-that-can-castle
+  [
+    rook-that-can-castle ->
+    
+    ifelse [xcor] of rook-that-can-castle < xcor
+    [
+      ask patches with [pxcor = 2 and pycor = [ycor] of myself]
+      [set marked? true]
+      set can-castle? true
+    ]
+    [
+      ask patches with [pxcor = 6 and pycor = [ycor] of myself]
+      [set marked? true]
+      set can-castle? true
+    ]
+  ]
 end
