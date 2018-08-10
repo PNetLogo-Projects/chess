@@ -75,6 +75,10 @@ to-report game-over-by-checkmate?
   report not any? patches with [marked?]
 end
 
+to-report game-draw-by-fifty-moves-rule?
+  report game-fifty-moves-rule-counter >= 50
+end
+
 to advance-fifty-moves-rule-counter
   ifelse [breed] of game-last-moved-piece != pawns and not game-last-move-was-capture?
   [set game-fifty-moves-rule-counter (game-fifty-moves-rule-counter + 1)]
