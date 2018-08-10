@@ -46,7 +46,10 @@ to pawn-assess-capture-by-enpassant
   if any? pawns-behind-me with [can-be-enpassanted? and color != [color] of myself]
   [
     ask pawns-behind-me
-    [die]
+    [
+      set game-last-move-was-capture? true
+      die
+    ]
   ]
   ask other pawns
   [set can-be-enpassanted? false]

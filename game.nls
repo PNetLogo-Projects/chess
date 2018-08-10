@@ -41,6 +41,7 @@ to handle-user-input
       [pieces-mark-valid-moves]
     ]
     [
+      set game-last-move-was-capture? false
       if marked?
       [
         ask game-selected-piece
@@ -48,8 +49,12 @@ to handle-user-input
           setxy mouse-x mouse-y
           pieces-assess-if-move-was-special
           set moved? true
-          ask other turtles-here [die]
-          sync-screen
+          ask other turtles-here
+          [
+            set game-last-move-was-capture? true
+            die
+          ]
+          set game-last-moved-piece self
         ]
         set game-selected-piece nobody
         reset-marks
