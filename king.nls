@@ -20,3 +20,12 @@ to king-mark-valid-move-spots
   ask valid-move-spots
   [set marked? true]
 end
+
+to king-mark-valid-capture-spots [always-mark?]
+  ifelse always-mark?
+  [
+    ask neighbors
+    [set marked? true]
+  ]
+  [king-mark-valid-move-spots]
+end
