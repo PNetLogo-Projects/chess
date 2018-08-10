@@ -6,6 +6,9 @@ end
 to game-initialize-globals
   set game-turn game-white-turn
   set game-selected-piece nobody
+  set game-last-moved-piece nobody
+  set game-last-move-was-capture? false
+  set game-fifty-moves-rule-counter 0
 end
 
 to main-loop
