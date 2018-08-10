@@ -60,23 +60,32 @@ to-report get-rooks-that-can-castle
 end
 
 to king-mark-valid-castle-spots
+  let always-mark? true
   set can-castle? false
   
-  let rooks-that-can-castle get-rooks-that-can-castle
-  foreach rooks-that-can-castle
+  ask pieces-enemies
+  [pieces-mark-valid-captures always-mark?]
+  let king-in-danger marked?
+  reset-marks
+  
+  if not king-in-danger
   [
-    rook-that-can-castle ->
-    
-    ifelse [xcor] of rook-that-can-castle < xcor
+    let rooks-that-can-castle get-rooks-that-can-castle
+    foreach rooks-that-can-castle
     [
-      ask patches with [pxcor = 2 and pycor = [ycor] of myself]
-      [set marked? true]
-      set can-castle? true
-    ]
-    [
-      ask patches with [pxcor = 6 and pycor = [ycor] of myself]
-      [set marked? true]
-      set can-castle? true
+      rook-that-can-castle ->
+      
+      ifelse [xcor] of rook-that-can-castle < xcor
+      [
+        ask patches with [pxcor = 2 and pycor = [ycor] of myself]
+        [set marked? true]
+        set can-castle? true
+      ]
+      [
+        ask patches with [pxcor = 6 and pycor = [ycor] of myself]
+        [set marked? true]
+        set can-castle? true
+      ]
     ]
   ]
 end
