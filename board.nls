@@ -33,11 +33,11 @@ to reset-marks
 end
 
 to save-marks-to-saved-marked
-  ask patches
+  ask patches with [true]
   [set saved-marked? marked?]
 end
 
 to load-marks-from-saved-marked
-  ask patches
+  ask patches with [true]
   [set marked? saved-marked?]
 end
