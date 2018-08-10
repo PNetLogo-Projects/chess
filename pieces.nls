@@ -106,6 +106,8 @@ to pieces-assess-if-move-was-special
     pawn-assess-can-be-enpassanted
     pawn-assess-capture-by-enpassant
   ]
+  if breed = kings
+  [king-assess-is-attempt-to-castle]
 end
 
 to pieces-mark-horizontal [search-depth mark-obstacles]
