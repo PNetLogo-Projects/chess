@@ -10,6 +10,7 @@ to pawn-mark-valid-move-spots
   [pieces-mark-direction pieces-same-direction pieces-down-direction 2 pieces-never-mark-obstacles]
   
   pawn-mark-valid-capture-spots false
+  pieces-ensure-moves-will-not-danger-king
 end
 
 to pawn-mark-valid-capture-spots [always-mark?]

@@ -3,6 +3,8 @@ to queen-mark-valid-move-spots
   pieces-mark-vertical pieces-max-search-depth pieces-mark-opposing-obstacles
   pieces-mark-major-diagonal pieces-max-search-depth pieces-mark-opposing-obstacles
   pieces-mark-minor-diagonal pieces-max-search-depth pieces-mark-opposing-obstacles
+  
+  pieces-ensure-moves-will-not-danger-king
 end
 
 to queen-mark-valid-capture-spots [always-mark?]

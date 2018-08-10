@@ -1,6 +1,7 @@
 to knight-mark-valid-move-spots
   let always-mark? false
   knight-mark-move-spots always-mark?
+  pieces-ensure-moves-will-not-danger-king
 end
 
 to knight-mark-valid-capture-spots [always-mark?]
