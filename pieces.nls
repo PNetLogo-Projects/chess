@@ -111,11 +111,19 @@ to pieces-ensure-moves-will-not-danger-king
     candidate ->
     
     setxy [pxcor] of candidate [pycor] of candidate
+    let other-turtles other turtles-here
+    if any? other-turtles
+    [
+      ask other-turtles
+      [setxy -1 0]
+    ]
     reset-marks
     ask pieces-enemies
     [pieces-mark-valid-captures true]
     if not king-is-in-danger?
     [set actual-move-candidates (lput candidate actual-move-candidates)]
+    ask other-turtles
+    [setxy [xcor] of myself [ycor] of myself]
   ]
   reset-marks
   setxy original-xcor original-ycor
