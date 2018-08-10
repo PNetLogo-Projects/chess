@@ -57,11 +57,18 @@ to handle-user-input
           set game-last-moved-piece self
         ]
         set game-selected-piece nobody
+        advance-fifty-moves-rule-counter
         reset-marks
         next-turn
       ]
     ]
   ]
+end
+
+to advance-fifty-moves-rule-counter
+  ifelse [breed] of game-last-moved-piece != pawns and not game-last-move-was-capture?
+  [set game-fifty-moves-rule-counter (game-fifty-moves-rule-counter + 1)]
+  [set game-fifty-moves-rule-counter 0]
 end
 
 to next-turn
