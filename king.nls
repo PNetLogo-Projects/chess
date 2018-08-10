@@ -10,6 +10,7 @@ to king-mark-valid-move-spots
   king-mark-valid-castle-spots
   ask valid-move-spots
   [set marked? true]
+  pieces-ensure-moves-will-not-danger-king
 end
 
 to king-mark-valid-capture-spots [always-mark?]
