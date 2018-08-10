@@ -56,7 +56,7 @@ to render-pieces-of-type [piece-type piece-xcors piece-ycors]
 end
 
 to-report pieces-valid-piece?
-  report member? breed (list pawns rooks knights bishops queens kings)
+  report member? breed (list pawns rooks knights bishops queens kings) and pieces-still-within-bounds? xcor ycor
 end
 
 to-report pieces-enemies
