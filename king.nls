@@ -1,21 +1,10 @@
 to king-mark-valid-move-spots
+  let always-mark? true
   ask turtles with [color != [color] of myself]
-  [
-    if breed = pawns
-    [pawn-mark-valid-capture-spots true]
-    if breed = rooks
-    [rook-mark-valid-move-spots]
-    if breed = knights
-    [knight-mark-valid-move-spots]
-    if breed = bishops
-    [bishop-mark-valid-move-spots]
-    if breed = queens
-    [queen-mark-valid-move-spots]
-    if breed = kings
-    [ask neighbors [set marked? true]]
-  ]
+  [pieces-mark-valid-captures always-mark?]
   let my-color color
   let valid-move-spots neighbors with [not marked? and not any? turtles-here with [color = my-color]]
+  
   reset-marks
   ask valid-move-spots
   [set marked? true]
