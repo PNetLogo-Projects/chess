@@ -1,6 +1,8 @@
 to rook-mark-valid-move-spots 
   pieces-mark-horizontal pieces-max-search-depth pieces-mark-opposing-obstacles
   pieces-mark-vertical pieces-max-search-depth pieces-mark-opposing-obstacles
+  
+  pieces-ensure-moves-will-not-danger-king
 end
 
 to rook-mark-valid-capture-spots [always-mark?]
