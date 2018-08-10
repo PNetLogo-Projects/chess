@@ -29,7 +29,7 @@ globals [
   game-turn
 ]
 
-patches-own [orig-color marked?]
+patches-own [orig-color marked? saved-marked?]
 turtles-own [moved?]
 
 to initialize-constants
