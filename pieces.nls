@@ -132,6 +132,16 @@ to pieces-ensure-moves-will-not-danger-king
   display
 end
 
+to-report pieces-game-over-by-checkmate?
+  reset-marks
+  ask kings with [color = game-turn]
+  [
+    ask pieces-allies
+    [pieces-mark-valid-moves]
+  ]
+  report not any? patches with [marked?]
+end
+
 to pieces-assess-if-move-was-special
   if breed = pawns
   [
