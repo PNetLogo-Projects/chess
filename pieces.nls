@@ -100,6 +100,30 @@ to pieces-mark-valid-captures [always-mark?]
   [king-mark-valid-capture-spots always-mark?]
 end
 
+to pieces-ensure-moves-will-not-danger-king
+  no-display
+  let original-xcor xcor
+  let original-ycor ycor
+  let move-candidates (sort patches with [marked?])
+  let actual-move-candidates []
+  foreach move-candidates
+  [
+    candidate ->
+    
+    setxy [pxcor] of candidate [pycor] of candidate
+    reset-marks
+    ask pieces-enemies
+    [pieces-mark-valid-captures true]
+    if not king-is-in-danger?
+    [set actual-move-candidates (lput candidate actual-move-candidates)]
+  ]
+  reset-marks
+  setxy original-xcor original-ycor
+  ask patch-set actual-move-candidates
+  [set marked? true]
+  display
+end
+
 to pieces-assess-if-move-was-special
   if breed = pawns
   [
