@@ -27,6 +27,9 @@ globals [
   game-black-turn
   game-selected-piece
   game-turn
+  game-fifty-moves-rule-counter
+  game-last-moved-piece
+  game-last-move-was-capture?
 ]
 
 patches-own [orig-color marked? saved-marked?]
