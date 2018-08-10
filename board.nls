@@ -6,6 +6,7 @@ to render-board
   
   ask patches [
     set marked? false
+    set saved-marked? false
     
     ifelse pxcor < 0 or pxcor > 7
     [(color-patch-spot margin-color store-color)]
@@ -29,4 +30,14 @@ to reset-marks
     set marked? false
     set pcolor orig-color
   ]
+end
+
+to save-marks-to-saved-marked
+  ask patches
+  [set saved-marked? marked?]
+end
+
+to load-marks-from-saved-marked
+  ask patches
+  [set marked? saved-marked?]
 end
