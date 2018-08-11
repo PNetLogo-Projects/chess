@@ -1,10 +1,13 @@
 to game-initialize-constants
   set game-white-turn white
   set game-black-turn black
+  set game-white-color white
+  set game-black-color black
 end
 
 to game-initialize-globals
   set game-turn game-white-turn
+  set game-turn game-white-color
   set game-selected-piece nobody
   set game-last-moved-piece nobody
   set game-last-move-was-capture? false
@@ -34,7 +37,7 @@ to handle-user-input
   
   ask patches-at-mouse-coordinates
   [
-    ifelse any? turtles-here with [color = game-turn]
+    ifelse any? turtles-here with [color = game-turn-color]
     [
       set game-selected-piece one-of turtles-here
       ask game-selected-piece
@@ -67,7 +70,7 @@ end
 
 to-report game-over-by-checkmate?
   reset-marks
-  ask kings with [color = game-turn]
+  ask kings with [color = game-turn-color]
   [
     ask pieces-allies
     [pieces-mark-valid-moves]
@@ -87,6 +90,12 @@ end
 
 to next-turn
   ifelse game-turn = game-white-turn
-  [set game-turn game-black-turn]
-  [set game-turn game-white-turn]
+  [
+    set game-turn game-black-turn
+    set game-turn-color game-black-color
+  ]
+  [
+    set game-turn game-white-turn
+    set game-turn-color game-white-color
+  ]
 end

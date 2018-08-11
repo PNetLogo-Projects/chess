@@ -25,8 +25,11 @@ globals [
 
   game-white-turn
   game-black-turn
+  game-white-color
+  game-black-color
   game-selected-piece
   game-turn
+  game-turn-color
   game-fifty-moves-rule-counter
   game-last-moved-piece
   game-last-move-was-capture?

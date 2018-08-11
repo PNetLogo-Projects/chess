@@ -27,7 +27,7 @@ to-report king-is-in-danger?
   let king-is-in-danger false
   save-marks-to-saved-marked
   
-  ask kings with [color = game-turn]
+  ask kings with [color = game-turn-color]
   [
     ask pieces-enemies
     [pieces-mark-valid-captures always-mark?]
