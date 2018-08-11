@@ -39,7 +39,7 @@ to-report king-is-in-danger?
   report king-is-in-danger
 end
 
-to-report get-rooks-that-can-castle
+to-report king-get-rooks-that-can-castle
   if moved?
   [report []]
   
@@ -88,7 +88,7 @@ to king-mark-valid-castle-spots
   
   if not king-in-danger
   [
-    let rooks-that-can-castle get-rooks-that-can-castle
+    let rooks-that-can-castle king-get-rooks-that-can-castle
     foreach rooks-that-can-castle
     [
       rook-that-can-castle ->
