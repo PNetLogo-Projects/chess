@@ -7,7 +7,7 @@ end
 
 to game-initialize-globals
   set game-turn game-white-turn
-  set game-turn game-white-color
+  set game-turn-color game-white-color
   set game-selected-piece nobody
   set game-last-moved-piece nobody
   set game-last-move-was-capture? false
