@@ -2,18 +2,18 @@ to render-board
   let margin-color brown
   let board-light-color 8
   let board-dark-color 57
-  let store-color true
+  let save-color? true
   
   ask patches [
     set marked? false
     set saved-marked? false
     
     ifelse pxcor < 0 or pxcor > 7
-    [(color-patch-spot margin-color store-color)]
+    [(color-patch-spot margin-color save-color?)]
     [
       ifelse (pxcor + pycor) mod 2 = 0
-      [(color-patch-spot board-dark-color store-color)]
-      [(color-patch-spot board-light-color store-color)]
+      [(color-patch-spot board-dark-color save-color?)]
+      [(color-patch-spot board-light-color save-color?)]
     ]
   ]
 end
