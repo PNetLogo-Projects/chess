@@ -24,6 +24,81 @@ to color-patch-spot [colour save?]
   [set orig-color pcolor]
 end
 
+to-report board-in-fen-notation
+  let fen-notation []
+  
+  let board ""
+  let empty-spaces 0
+  foreach sort patches with [pxcor >= 0 and pxcor <= 7 and pycor >= 0 and pycor <= 7]
+  [
+    board-square ->
+    
+    ask board-square
+    [
+      ifelse any? turtles-here
+      [
+        if empty-spaces > 0
+        [set board (word board empty-spaces)]
+        set empty-spaces 0
+        set board (word board (get-piece-notation turtles-here))
+      ]
+      [set empty-spaces (empty-spaces + 1)]
+    ]
+  ]
+  set fen-notation (lput board fen-notation)
+  
+  ifelse game-turn = game-white-turn
+  [set fen-notation (lput "w" fen-notation)]
+  [set fen-notation (lput "b" fen-notation)]
+  
+  let castle-rights ""
+  ask kings with [color = game-white-color]
+  [
+    if not moved? and any? rooks with [color = game-white-color and not moved? and xcor = 7]
+    [set castle-rights (word castle-rights "K")]
+    if not moved? and any? rooks with [color = game-white-color and not moved? and xcor = 0]
+    [set castle-rights (word castle-rights "Q")]
+  ]
+  ask kings with [color = game-black-color]
+  [
+    if not moved? and any? rooks with [color = game-black-color and not moved? and xcor = 7]
+    [set castle-rights (word castle-rights "k")]
+    if not moved? and any? rooks with [color = game-black-color and not moved? and xcor = 0]
+    [set castle-rights (word castle-rights "q")]
+  ]
+  set fen-notation (lput castle-rights fen-notation)
+  
+  let enpassant-pawns pawns with [can-be-enpassanted?]
+  let enpassant-rights ""
+  ifelse any? enpassant-pawns
+  [set enpassant-rights one-of enpassant-pawns]
+  [set enpassant-rights nobody]
+  set fen-notation (lput enpassant-rights fen-notation)
+  
+  report fen-notation
+end
+
+to-report get-piece-notation [piece]
+  if is-agentset? piece
+  [set piece one-of piece]
+  let index 0
+  if black = [color] of piece
+  [set index 1]
+  if pawns = [breed] of piece
+  [report (item index "Pp")]
+  if rooks = [breed] of piece
+  [report (item index "Rr")]
+  if knights = [breed] of piece
+  [report (item index "Nn")]
+  if bishops = [breed] of piece
+  [report (item index "Bb")]
+  if queens = [breed] of piece
+  [report (item index "Qq")]
+  if kings = [breed] of piece
+  [report (item index "Kk")]
+  report nobody
+end
+
 to reset-marks
   ask patches with [marked?]
   [
