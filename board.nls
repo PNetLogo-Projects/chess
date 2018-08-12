@@ -78,6 +78,8 @@ to-report board-in-fen-notation
   [set enpassant-rights nobody]
   set fen-notation (lput enpassant-rights fen-notation)
   
+  set fen-notation (lput game-fifty-moves-rule-counter fen-notation)
+  
   report fen-notation
 end
 
