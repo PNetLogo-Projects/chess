@@ -71,7 +71,10 @@ to-report board-in-fen-notation
   let enpassant-pawns pawns with [can-be-enpassanted?]
   let enpassant-rights ""
   ifelse any? enpassant-pawns
-  [set enpassant-rights one-of enpassant-pawns]
+  [
+    let enpassant-pawn one-of enpassant-pawns
+    set enpassant-rights (list [xcor] of enpassant-pawn [ycor] of enpassant-pawn)
+  ]
   [set enpassant-rights nobody]
   set fen-notation (lput enpassant-rights fen-notation)
   
