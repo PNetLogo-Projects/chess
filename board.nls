@@ -38,9 +38,13 @@ to-report board-in-fen-notation
       ifelse any? turtles-here
       [
         if empty-spaces > 0
-        [set board (word board empty-spaces)]
+        [
+          set board (word board empty-spaces)
+          set board (word board "|")
+        ]
         set empty-spaces 0
         set board (word board (get-piece-notation turtles-here))
+        set board (word board "|")
       ]
       [set empty-spaces (empty-spaces + 1)]
     ]
