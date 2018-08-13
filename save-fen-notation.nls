@@ -1,0 +1,151 @@
+to-report save-game-to-fen-notation
+  let fen-notation []
+  
+  set fen-notation (lput board-fen-notation-field fen-notation)
+  set fen-notation (lput heading-attributes-fen-notation-field fen-notation)
+  set fen-notation (lput moved-attributes-fen-notation-field fen-notation)
+  set fen-notation (lput game-turn-fen-notation-field fen-notation)
+  set fen-notation (lput castling-rights-fen-notation-field fen-notation)
+  set fen-notation (lput enpassant-pawns-fen-notation-field fen-notation)
+  set fen-notation (lput fifty-moves-rule-counter-fen-notation-field fen-notation)
+  
+  report fen-notation
+end
+
+to-report board-fen-notation-field
+  let board ""
+  let empty-spots 0
+  foreach sort patches with [pxcor >= 0 and pxcor <= 7 and pycor >= 0 and pycor <= 7]
+  [
+    board-square ->
+    
+    ask board-square
+    [
+      ifelse any? turtles-here
+      [
+        if empty-spots > 0
+        [set board (word board empty-spots "|")]
+        set empty-spots 0
+        set board (word board (piece-notation one-of turtles-here) "|")
+      ]
+      [set empty-spots (empty-spots + 1)]
+    ]
+  ]
+  
+  report board
+end
+
+to-report heading-attributes-fen-notation-field
+  let headings-attributes ""
+  let empty-spots 0
+  foreach sort patches with [pxcor >= 0 and pxcor <= 7 and pycor >= 0 and pycor <= 7]
+  [
+    board-square ->
+    
+    ask board-square
+    [
+      ifelse any? turtles-here
+      [
+        if empty-spots > 0
+        [set headings-attributes (word headings-attributes empty-spots "|")]
+        set empty-spots 0
+        set headings-attributes (word headings-attributes (heading-notation one-of turtles-here) "|")
+      ]
+      [set empty-spots (empty-spots + 1)]
+    ]
+  ]
+  
+  report headings-attributes
+end
+
+to-report moved-attributes-fen-notation-field
+  let moved-attributes ""
+  let empty-spots 0
+  foreach sort patches with [pxcor >= 0 and pxcor <= 7 and pycor >= 0 and pycor <= 7]
+  [
+    board-square ->
+    
+    ask board-square
+    [
+      ifelse any? turtles-here
+      [
+        if empty-spots > 0
+        [set moved-attributes (word moved-attributes empty-spots "|")]
+        set empty-spots 0
+        set moved-attributes (word moved-attributes (moved-notation one-of turtles-here) "|")
+      ]
+      [set empty-spots (empty-spots + 1)]
+    ]
+  ]
+  
+  report moved-attributes
+end
+
+to-report game-turn-fen-notation-field
+  ifelse game-turn = game-white-turn
+  [report "w"]
+  [report "b"]
+end
+
+to-report castling-rights-fen-notation-field
+  let castling-rights ""
+  if any? kings with [color = game-white-color and not moved?]
+  [
+    if any? rooks with [xcor = 0 and color = game-white-color and not moved?]
+    [set castling-rights (word castling-rights "Q")]
+    if any? rooks with [xcor = 7 and color = game-white-color and not moved?]
+    [set castling-rights (word castling-rights "K")]
+  ]
+  if any? kings with [color = game-black-color and not moved?]
+  [
+    if any? rooks with [xcor = 0 and color = game-black-color and not moved?]
+    [set castling-rights (word castling-rights "q")]
+    if any? rooks with [xcor = 7 and color = game-black-color and not moved?]
+    [set castling-rights (word castling-rights "k")]
+  ]
+  report castling-rights
+end
+
+to-report enpassant-pawns-fen-notation-field
+  ifelse any? pawns with [can-be-enpassanted?]
+  [
+    let can-be-enpassanted-pawn one-of pawns with [can-be-enpassanted?]
+    report (list [xcor] of can-be-enpassanted-pawn [ycor] of can-be-enpassanted-pawn)
+  ]
+  [report []]
+end
+
+to-report fifty-moves-rule-counter-fen-notation-field
+  report game-fifty-moves-rule-counter
+end
+
+to-report piece-notation [piece]
+  let index 0
+  if black = [color] of piece
+  [set index 1]
+  if pawns = [breed] of piece
+  [report (item index "Pp")]
+  if rooks = [breed] of piece
+  [report (item index "Rr")]
+  if knights = [breed] of piece
+  [report (item index "Nn")]
+  if bishops = [breed] of piece
+  [report (item index "Bb")]
+  if queens = [breed] of piece
+  [report (item index "Qq")]
+  if kings = [breed] of piece
+  [report (item index "Kk")]
+  report ""
+end
+
+to-report heading-notation [piece]
+  ifelse [heading] of piece = 0
+  [report "u"]
+  [report "d"]
+end
+
+to-report moved-notation [piece]
+  ifelse [moved?] of piece
+  [report "m"]
+  [report " "]
+end
