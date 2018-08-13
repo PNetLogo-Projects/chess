@@ -3,6 +3,7 @@ to load-game-from-fen-notation [fen-notation]
   [die]
   
   load-board-from-fen-notation fen-notation
+  load-heading-attributes-from-fen-notation fen-notation
   load-moved-attributes-from-fen-notation fen-notation
   load-game-turn-from-fen-notation fen-notation
   load-enpassant-pawns-from-fen-notation fen-notation
@@ -30,8 +31,36 @@ to load-board-from-fen-notation [fen-notation]
   ]
 end
 
+to load-heading-attributes-from-fen-notation [fen-notation]
+  let heading-attributes (item 1 fen-notation)
+  let empty-spaces 0
+  let end-pos (position "|" heading-attributes)
+  foreach sort patches with [pxcor >= 0 and pxcor <= 7 and pycor >= 0 and pycor <= 7]
+  [
+    board-square ->
+    
+    ifelse empty-spaces = 0
+    [
+      let next-bit (substring heading-attributes 0 end-pos)
+      carefully
+      [set empty-spaces ((read-from-string next-bit) - 1)]
+      [
+        ask pieces with [xcor = [pxcor] of board-square and ycor = [pycor] of board-square]
+        [
+          ifelse next-bit = "u"
+          [set heading 0]
+          [set heading 180]
+        ]
+      ]
+      set heading-attributes (substring heading-attributes (end-pos + 1) (length heading-attributes))
+      set end-pos (position "|" heading-attributes)
+    ]
+    [set empty-spaces (empty-spaces - 1)]
+  ]
+end
+
 to load-moved-attributes-from-fen-notation [fen-notation]
-  let moved-attributes (item 1 fen-notation)
+  let moved-attributes (item 2 fen-notation)
   let empty-spaces 0
   let end-pos (position "|" moved-attributes)
   foreach sort patches with [pxcor >= 0 and pxcor <= 7 and pycor >= 0 and pycor <= 7]
@@ -55,7 +84,7 @@ to load-moved-attributes-from-fen-notation [fen-notation]
 end
 
 to load-game-turn-from-fen-notation [fen-notation]
-  let game-turn-notation (item 2 fen-notation)
+  let game-turn-notation (item 3 fen-notation)
   ifelse game-turn-notation = "w"
   [
     set game-turn game-white-turn
@@ -68,7 +97,7 @@ to load-game-turn-from-fen-notation [fen-notation]
 end
 
 to load-enpassant-pawns-from-fen-notation [fen-notation]
-  let enpassant-pawn-xy-coordinates (item 4 fen-notation)
+  let enpassant-pawn-xy-coordinates (item 5 fen-notation)
   if length enpassant-pawn-xy-coordinates > 0
   [
     ask pawns with [xcor = (item 0 enpassant-pawn-xy-coordinates) and ycor = (item 1 enpassant-pawn-xy-coordinates)]
@@ -77,5 +106,5 @@ to load-enpassant-pawns-from-fen-notation [fen-notation]
 end
 
 to load-fifty-moves-rule-counter-from-fen-notation [fen-notation]
-  set game-fifty-moves-rule-counter (item 5 fen-notation)
+  set game-fifty-moves-rule-counter (item 6 fen-notation)
 end
