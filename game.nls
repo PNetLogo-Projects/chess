@@ -97,6 +97,27 @@ to-report game-draw-by-fifty-moves-rule?
   report game-fifty-moves-rule-counter >= 50
 end
 
+to-report game-draw-by-threefold-repetition?
+  let current-move-fen-notation save-game-to-fen-notation
+  let current-position (item 0 current-move-fen-notation)
+  let current-turn (item 3 current-move-fen-notation)
+  let castling-rights (item 4 current-move-fen-notation)
+  let enpassant-rights (item 5 current-move-fen-notation)
+  
+  let repetition 0
+  foreach game-move-history
+  [
+    move ->
+    
+    if (current-position = (item 0 move) and current-turn = (item 3 move) and castling-rights = (item 4 move) and
+      enpassant-rights = (item 5 move))
+    [set repetition (repetition + 1)]
+  ]
+  
+  show repetition
+  report repetition >= 3
+end
+
 to advance-fifty-moves-rule-counter
   ifelse [breed] of game-last-moved-piece != pawns and not game-last-move-was-capture?
   [set game-fifty-moves-rule-counter (game-fifty-moves-rule-counter + 1)]
