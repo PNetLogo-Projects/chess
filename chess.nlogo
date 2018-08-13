@@ -33,6 +33,7 @@ globals [
   game-fifty-moves-rule-counter
   game-last-moved-piece
   game-last-move-was-capture?
+  game-move-history
 ]
 
 patches-own [orig-color marked? saved-marked?]
