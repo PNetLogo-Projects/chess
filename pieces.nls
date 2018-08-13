@@ -67,6 +67,10 @@ to-report pieces-allies
   report turtles with [color = [color] of myself and pieces-valid-piece?]
 end
 
+to-report pieces
+  report turtles with [pieces-valid-piece?]
+end
+
 to pieces-mark-valid-moves
   if breed = pawns
   [
