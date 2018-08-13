@@ -74,7 +74,7 @@ to load-moved-attributes-from-fen-notation [fen-notation]
       [set empty-spaces ((read-from-string next-bit) - 1)]
       [
         ask pieces with [xcor = [pxcor] of board-square and ycor = [pycor] of board-square]
-        [set moved? true]
+        [set moved? (next-bit = "m")]
       ]
       set moved-attributes (substring moved-attributes (end-pos + 1) (length moved-attributes))
       set end-pos (position "|" moved-attributes)
