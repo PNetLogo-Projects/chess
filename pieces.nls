@@ -137,11 +137,12 @@ to pieces-ensure-moves-will-not-danger-king
 end
 
 to pieces-assess-if-move-was-special
-  if breed = pawns
+  ifelse breed = pawns
   [
     pawn-assess-can-be-enpassanted
     pawn-assess-capture-by-enpassant
   ]
+  [pawn-reset-can-be-enpassanted]
   if breed = kings
   [king-assess-is-attempt-to-castle]
 end

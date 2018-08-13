@@ -54,3 +54,8 @@ to pawn-assess-capture-by-enpassant
   ask other pawns
   [set can-be-enpassanted? false]
 end
+
+to pawn-reset-can-be-enpassanted
+  ask pawns
+  [set can-be-enpassanted? false]
+end
