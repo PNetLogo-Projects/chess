@@ -108,3 +108,61 @@ end
 to load-fifty-moves-rule-counter-from-fen-notation [fen-notation]
   set game-fifty-moves-rule-counter (item 6 fen-notation)
 end
+
+to pieces-spawn-piece-from-notation-at-square [notation board-square]
+  let piece-info (pieces-info-from-notation notation)
+  let piece-type (item 0 piece-info)
+  let piece-color (item 1 piece-info)
+  ask board-square
+  [
+    sprout 1
+    [
+      set breed piece-type
+      set shape (word piece-type)
+      set color piece-color
+      
+      if breed = pawns
+      [set can-be-enpassanted? false]
+    ]
+  ]
+end
+
+to-report pieces-info-from-notation [notation]
+  if member? notation "Pp"
+  [
+    ifelse notation = "P"
+    [report (list pawns white)]
+    [report (list pawns black)]
+  ]
+  if member? notation "Rr"
+  [
+    ifelse notation = "R"
+    [report (list rooks white)]
+    [report (list rooks black)]
+  ]
+  if member? notation "Nn"
+  [
+    ifelse notation = "N"
+    [report (list knights white)]
+    [report (list knights black)]
+  ]
+  if member? notation "Bb"
+  [
+    ifelse notation = "B"
+    [report (list bishops white)]
+    [report (list bishops black)]
+  ]
+  if member? notation "Qq"
+  [
+    ifelse notation = "Q"
+    [report (list queens white)]
+    [report (list queens black)]
+  ]
+  if member? notation "Kk"
+  [
+    ifelse notation = "K"
+    [report (list kings white)]
+    [report (list kings black)]
+  ]
+  report []
+end
