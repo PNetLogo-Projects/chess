@@ -74,6 +74,15 @@ to update-game-move-history
   set game-move-history (lput (save-game-to-fen-notation) game-move-history)
 end
 
+to undo
+  if length game-move-history > 0
+  [
+    let last-move (last game-move-history)
+    set game-move-history (but-last game-move-history)
+    load-game-from-fen-notation (last-move)
+  ]
+end
+
 to-report game-over-by-checkmate?
   reset-marks
   ask kings with [color = game-turn-color]
