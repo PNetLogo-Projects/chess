@@ -18,15 +18,12 @@ to draw-menu [menu-items]
     let alignment (item 2 menu-item)
     let font-size (item 3 menu-item)
     let option-color (item 4 menu-item)
-  
-    let x-coordinate (item 0 coordinates)
-    let y-coordinate (item 1 coordinates)
     
+    if alignment = menu-left-align
+    [(aligned-render-string option-string coordinates text-left-align font-size option-color)]
     if alignment = menu-center-align
-    [set x-coordinate (get-start-x-at-alignment option-string x-coordinate text-center-align font-size)]
+    [(aligned-render-string option-string coordinates text-center-align font-size option-color)]
     if alignment = menu-right-align
-    [set x-coordinate (get-start-x-at-alignment option-string x-coordinate text-right-align font-size)]
-    
-    (render-string option-string (list x-coordinate y-coordinate) option-color font-size)
+    [(aligned-render-string option-string coordinates text-right-align font-size option-color)]
   ]
 end
