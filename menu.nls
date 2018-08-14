@@ -27,3 +27,67 @@ to draw-menu [menu-items]
     [(aligned-render-string option-string coordinates text-right-align font-size option-color)]
   ]
 end
+
+to draw-menu-with-checks [checks-info menu-items]
+  let checks-x-coordinate (item 0 checks-info)
+  let checks-hidden-state? (item 1 checks-info)
+  let check-box-color (item 2 checks-info)
+  let check-color (item 3 checks-info)
+  
+  foreach menu-items
+  [
+    menu-item ->
+    
+    let option-string (item 0 menu-item)
+    let coordinates (item 1 menu-item)
+    let alignment (item 2 menu-item)
+    let font-size (item 3 menu-item)
+    let option-color (item 4 menu-item)
+  
+    if alignment = menu-left-align
+    [(aligned-render-string option-string coordinates text-left-align font-size option-color)]
+    if alignment = menu-center-align
+    [(aligned-render-string option-string coordinates text-center-align font-size option-color)]
+    if alignment = menu-right-align
+    [(aligned-render-string option-string coordinates text-right-align font-size option-color)]
+
+    let y-coordinate (item 1 coordinates)
+    ask patches with [pxcor = checks-x-coordinate and pycor = y-coordinate]
+    [
+      set pcolor check-box-color
+      sprout 1
+      [
+        set shape "check"
+        set color check-color
+        set hidden? checks-hidden-state?
+      ]
+    ]
+  ]
+end
+
+to menu-check-check-box [x-coordinate y-coordinate]
+  let check-turtles-at-coordinates (turtles with [xcor = x-coordinate and ycor = y-coordinate and shape = "check"])
+  if any? check-turtles-at-coordinates
+  [
+    ask check-turtles-at-coordinates
+    [set hidden? false]
+  ]
+end
+
+to menu-uncheck-check-box [x-coordinate y-coordinate]
+  let check-turtles-at-coordinates (turtles with [xcor = x-coordinate and ycor = y-coordinate and shape = "check"])
+  if any? check-turtles-at-coordinates
+  [
+    ask check-turtles-at-coordinates
+    [set hidden? true]
+  ]
+end
+
+to menu-toggle-check-box [x-coordinate y-coordinate]
+  let check-turtles-at-coordinates (turtles with [xcor = x-coordinate and ycor = y-coordinate and shape = "check"])
+  if any? check-turtles-at-coordinates
+  [
+    ask check-turtles-at-coordinates
+    [set hidden? not hidden?]
+  ]
+end
