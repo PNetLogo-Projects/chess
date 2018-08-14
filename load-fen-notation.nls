@@ -88,7 +88,7 @@ to load-game-turn-from-fen-notation [fen-notation]
   ifelse game-turn-notation = "w"
   [
     set game-turn game-white-turn
-    set game-turn-color game-black-color
+    set game-turn-color game-white-color
   ]
   [
     set game-turn game-black-turn
