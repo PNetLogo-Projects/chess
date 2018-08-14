@@ -1,0 +1,37 @@
+;; Returns a list containing the file-content as a list (if any) and
+;; whether an error has occured
+to-report read-from-file [filename]
+  if not file-exists? filename
+  [report (list [] true)]
+  
+  file-open filename
+  
+  let content []
+  while [not file-at-end?]
+  [set content (lput file-read content)]
+  
+  file-close
+  report (list content false)
+end
+
+;; Returns whether file-content was sucessfully written to disk
+to-report write-to-file [filename file-content overwrite?]
+  if file-exists? filename
+  [
+    ifelse overwrite?
+    [file-delete filename]
+    [report false]
+  ]
+  
+  file-open filename
+  
+  foreach file-content
+  [
+    content-item ->
+    
+    file-write content-item
+  ]
+  
+  file-close
+  report true  
+end
