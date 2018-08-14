@@ -15,6 +15,21 @@ to game-initialize-globals
   set game-move-history []
 end
 
+to setup-game
+  ca
+  initialize-constants
+  initialize-globals
+  
+  render-board
+  render-pieces
+  sync-screen
+end
+
+to new-game
+  setup-game
+  main-loop
+end
+
 to main-loop
   let game-over false
   let mouse-up? (not mouse-down?)
