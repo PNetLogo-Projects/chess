@@ -9,6 +9,9 @@ __includes [
   "king.nls"
   "pawn.nls"
 
+  "menu.nls"
+  "text.nls"
+
   "game.nls"
 ]
 
@@ -34,6 +37,10 @@ globals [
   game-last-moved-piece
   game-last-move-was-capture?
   game-move-history
+
+  menu-left-align
+  menu-center-align
+  menu-right-align
 ]
 
 patches-own [orig-color marked? saved-marked?]
@@ -41,6 +48,7 @@ turtles-own [moved?]
 
 to initialize-constants
   game-initialize-constants
+  menu-initialize-constants
   pieces-initialize-constants
 end
 
