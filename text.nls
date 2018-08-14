@@ -32,24 +32,38 @@ to-report get-start-x-at-alignment [string x-coordinate alignment font-size]
 end
 
 to render-string [string coordinates string-color font-size]
+  let garbage (temp-render-string string coordinates string-color font-size)
+end
+
+to-report temp-render-string [string coordinates string-color font-size]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   let index 0
   let interval (font-size / 3)
   
+  let rendered-turtles []
   while [index < length string]
   [
     let character (item index string)
-    (render-character character (list (x-coordinate + (interval * index)) y-coordinate) string-color font-size)
+    let new-x-coordinate (x-coordinate + (interval * index))
+    let rendered-turtle (temp-render-character character (list new-x-coordinate y-coordinate) string-color font-size)
+    set rendered-turtles (lput rendered-turtle rendered-turtles)
     
     set index (index + 1)
   ]
+  
+  report rendered-turtles
 end
 
 to render-character [character coordinates string-color font-size]
+  let garbage (temp-render-character character coordinates string-color font-size)
+end
+
+to-report temp-render-character [character coordinates string-color font-size]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   
+  let rendered-turtle nobody
   crt 1
   [
     setxy x-coordinate y-coordinate
@@ -57,28 +71,45 @@ to render-character [character coordinates string-color font-size]
     set shape (get-character-shape character)
     set size font-size
     set color string-color
+    set rendered-turtle self
   ]
+  
+  report rendered-turtle
 end
 
 to trender-string [string coordinates string-color font-size]
+  let garbage (ttemp-render-string string coordinates string-color font-size)
+end
+
+to-report ttemp-render-string [string coordinates string-color font-size]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   let index 0
   let interval (font-size / 3)
   
+  let rendered-turtles []
   while [index < length string]
   [
     let character (item index string)
-    (trender-character character (list (x-coordinate + (interval * index)) y-coordinate) string-color font-size)
+    let new-x-coordinate (x-coordinate + (interval * index))
+    let rendered-turtle (ttemp-render-character character (list new-x-coordinate y-coordinate) string-color font-size)
+    set rendered-turtles (lput rendered-turtle rendered-turtles)
     
     set index (index + 1)
   ]
+  
+  report rendered-turtles
 end
 
 to trender-character [character coordinates string-color font-size]
+  let garbage (ttemp-render-character character coordinates string-color font-size)
+end
+
+to-report ttemp-render-character [character coordinates string-color font-size]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   
+  let rendered-turtle nobody
   hatch 1
   [
     setxy x-coordinate y-coordinate
@@ -86,28 +117,45 @@ to trender-character [character coordinates string-color font-size]
     set shape (get-character-shape character)
     set size font-size
     set color string-color
+    set rendered-turtle self
   ]
+  
+  report rendered-turtle
 end
 
 to prender-string [string coordinates string-color font-size]
+  let garbage (ptemp-render-string string coordinates string-color font-size)
+end
+
+to-report ptemp-render-string [string coordinates string-color font-size]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   let index 0
   let interval (font-size / 3)
   
+  let rendered-turtles []
   while [index < length string]
   [
     let character (item index string)
-    (prender-character character (list (x-coordinate + (interval * index)) y-coordinate) string-color font-size)
+    let new-x-coordinate (x-coordinate + (interval * index))
+    let rendered-turtle (ptemp-render-character character (list new-x-coordinate y-coordinate) string-color font-size)
+    set rendered-turtles (lput rendered-turtle rendered-turtles)
     
     set index (index + 1)
   ]
+  
+  report rendered-turtles
 end
 
 to prender-character [character coordinates string-color font-size]
+  let garbage (ptemp-render-character character coordinates string-color font-size)
+end
+
+to-report ptemp-render-character [character coordinates string-color font-size]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   
+  let rendered-turtle nobody
   sprout 1
   [
     setxy x-coordinate y-coordinate
@@ -115,5 +163,8 @@ to prender-character [character coordinates string-color font-size]
     set shape (get-character-shape character)
     set size font-size
     set color string-color
+    set rendered-turtle self
   ]
+  
+  report rendered-turtle
 end
