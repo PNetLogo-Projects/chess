@@ -50,6 +50,7 @@ to initialize-constants
   game-initialize-constants
   menu-initialize-constants
   pieces-initialize-constants
+  text-initialize-constants
 end
 
 to initialize-globals
