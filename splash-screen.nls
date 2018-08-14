@@ -1,0 +1,47 @@
+to draw-splash-screen
+  ca
+  menu-initialize-constants
+  text-initialize-constants
+  draw-menu (list (list "Welcome to Chess!" [5.5 6] menu-center-align 2 115)
+    (list "New Game" [5.5 4] menu-center-align 1 115)
+    (list "Load Game" [5.5 3] menu-center-align 1 115)
+    (list "Options" [5.5 2] menu-center-align 1 115))
+  crt 2 [
+    set shape "knights"
+    set size 6
+    setxy -2 3.5
+    set heading 0
+    set color white
+  ]
+  ask one-of turtles with [shape = "knights"]
+  [set xcor 12 set shape "flipped-knights"]
+end
+
+to animate-splash-screen
+  let user-has-selected? false
+  let menu-options-turtles (display-turtles with [member? ycor [2 3 4]])
+  
+  while [not user-has-selected?]
+  [
+    let mouse-x (round mouse-xcor)
+    let mouse-y (round mouse-ycor)
+    
+    ask menu-options-turtles
+    [
+      ifelse ycor = mouse-y
+      [set color 125]
+      [set color 115]
+    ]
+    
+    if mouse-down? and (member? mouse-y [2 3 4])
+    [
+      set user-has-selected? true
+      if mouse-y = 4
+      [new-game]
+      if mouse-y = 3
+      [load-game]
+      if mouse-y = 2
+      [draw-option-screen]
+    ]
+  ]
+end
