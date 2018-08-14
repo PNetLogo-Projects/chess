@@ -42,6 +42,12 @@ globals [
   menu-left-align
   menu-center-align
   menu-right-align
+
+  settings-config-filename
+  settings-play-by-time?
+  settings-highlight-valid-move?
+  settings-switch-view?
+  settings-allow-undo?
 ]
 
 patches-own [orig-color marked? saved-marked?]
@@ -51,11 +57,13 @@ to initialize-constants
   game-initialize-constants
   menu-initialize-constants
   pieces-initialize-constants
+  settings-initialize-constants
   text-initialize-constants
 end
 
 to initialize-globals
   game-initialize-globals
+  settings-initialize-globals
 end
 
 to sync-screen
