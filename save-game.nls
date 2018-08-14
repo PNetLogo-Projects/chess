@@ -1,0 +1,35 @@
+to-report save-game
+  let filename (user-input "What do you want to name the save file?  (Do not include file extension)")
+  set filename (word filename ".sav")
+  let file-does-exists? (file-exists? filename)
+  file-close
+  
+  if file-does-exists?
+  [
+    let filename-no-ext (substring filename 0 ((length filename) - 4))
+    if user-yes-or-no? (word "The file you specified, " filename-no-ext " already exists... Should I overwrite it?")
+    [
+      file-delete filename
+      (write-game-to-file filename)
+      report true
+    ]
+    report false
+  ]
+  (write-game-to-file filename)
+  report true
+end
+
+to write-game-to-file [filename]
+  let fen-notation save-game-to-fen-notation
+  
+  (let rendered-turtles temp-render-string "Saving..." [2 4] blue 1)
+  sync-screen
+  
+  file-open filename
+  file-write fen-notation
+  file-write game-move-history
+  file-close
+  
+  ask (turtle-set rendered-turtles)
+  [die]
+end
