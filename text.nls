@@ -31,11 +31,31 @@ to-report get-start-x-at-alignment [string x-coordinate alignment font-size]
   [report x-coordinate - ((length string) * interval)]
 end
 
-to render-string [string coordinates string-color font-size]
-  let garbage (temp-render-string string coordinates string-color font-size)
+to aligned-render-string [string coordinates alignment font-size string-color]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  
+  set x-coordinate (get-start-x-at-alignment string x-coordinate alignment font-size)
+  set coordinates (list x-coordinate y-coordinate)
+   
+  (render-string string coordinates font-size string-color)
 end
 
-to-report temp-render-string [string coordinates string-color font-size]
+to render-string [string coordinates font-size string-color]
+  let garbage (temp-render-string string coordinates font-size string-color)
+end
+
+to-report temp-aligned-render-string [string coordinates alignment font-size string-color]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  
+  set x-coordinate (get-start-x-at-alignment string x-coordinate alignment font-size)
+  set coordinates (list x-coordinate y-coordinate)
+   
+  (report temp-render-string string coordinates font-size string-color)
+end
+
+to-report temp-render-string [string coordinates font-size string-color]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   let index 0
@@ -46,7 +66,7 @@ to-report temp-render-string [string coordinates string-color font-size]
   [
     let character (item index string)
     let new-x-coordinate (x-coordinate + (interval * index))
-    let rendered-turtle (temp-render-character character (list new-x-coordinate y-coordinate) string-color font-size)
+    let rendered-turtle (temp-render-character character (list new-x-coordinate y-coordinate) font-size string-color)
     set rendered-turtles (lput rendered-turtle rendered-turtles)
     
     set index (index + 1)
@@ -55,11 +75,11 @@ to-report temp-render-string [string coordinates string-color font-size]
   report rendered-turtles
 end
 
-to render-character [character coordinates string-color font-size]
-  let garbage (temp-render-character character coordinates string-color font-size)
+to render-character [character coordinates font-size string-color]
+  let garbage (temp-render-character character coordinates font-size string-color)
 end
 
-to-report temp-render-character [character coordinates string-color font-size]
+to-report temp-render-character [character coordinates font-size string-color]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   
@@ -77,11 +97,31 @@ to-report temp-render-character [character coordinates string-color font-size]
   report rendered-turtle
 end
 
-to trender-string [string coordinates string-color font-size]
-  let garbage (ttemp-render-string string coordinates string-color font-size)
+to taligned-render-string [string coordinates alignment font-size string-color]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  
+  set x-coordinate (get-start-x-at-alignment string x-coordinate alignment font-size)
+  set coordinates (list x-coordinate y-coordinate)
+   
+  (trender-string string coordinates font-size string-color)
 end
 
-to-report ttemp-render-string [string coordinates string-color font-size]
+to trender-string [string coordinates font-size string-color]
+  let garbage (ttemp-render-string string coordinates font-size string-color)
+end
+
+to-report ttemp-aligned-render-string [string coordinates alignment font-size string-color]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  
+  set x-coordinate (get-start-x-at-alignment string x-coordinate alignment font-size)
+  set coordinates (list x-coordinate y-coordinate)
+   
+  (report ttemp-render-string string coordinates font-size string-color)
+end
+
+to-report ttemp-render-string [string coordinates font-size string-color]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   let index 0
@@ -92,7 +132,7 @@ to-report ttemp-render-string [string coordinates string-color font-size]
   [
     let character (item index string)
     let new-x-coordinate (x-coordinate + (interval * index))
-    let rendered-turtle (ttemp-render-character character (list new-x-coordinate y-coordinate) string-color font-size)
+    let rendered-turtle (ttemp-render-character character (list new-x-coordinate y-coordinate) font-size string-color)
     set rendered-turtles (lput rendered-turtle rendered-turtles)
     
     set index (index + 1)
@@ -101,11 +141,11 @@ to-report ttemp-render-string [string coordinates string-color font-size]
   report rendered-turtles
 end
 
-to trender-character [character coordinates string-color font-size]
-  let garbage (ttemp-render-character character coordinates string-color font-size)
+to trender-character [character coordinates font-size string-color]
+  let garbage (ttemp-render-character character coordinates font-size string-color)
 end
 
-to-report ttemp-render-character [character coordinates string-color font-size]
+to-report ttemp-render-character [character coordinates font-size string-color]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   
@@ -123,11 +163,31 @@ to-report ttemp-render-character [character coordinates string-color font-size]
   report rendered-turtle
 end
 
-to prender-string [string coordinates string-color font-size]
-  let garbage (ptemp-render-string string coordinates string-color font-size)
+to paligned-render-string [string coordinates alignment font-size string-color]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  
+  set x-coordinate (get-start-x-at-alignment string x-coordinate alignment font-size)
+  set coordinates (list x-coordinate y-coordinate)
+   
+  (prender-string string coordinates font-size string-color)
 end
 
-to-report ptemp-render-string [string coordinates string-color font-size]
+to prender-string [string coordinates font-size string-color]
+  let garbage (ptemp-render-string string coordinates font-size string-color)
+end
+
+to-report ptemp-aligned-render-string [string coordinates alignment font-size string-color]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  
+  set x-coordinate (get-start-x-at-alignment string x-coordinate alignment font-size)
+  set coordinates (list x-coordinate y-coordinate)
+   
+  (report ptemp-render-string string coordinates font-size string-color)
+end
+
+to-report ptemp-render-string [string coordinates font-size string-color]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   let index 0
@@ -138,7 +198,7 @@ to-report ptemp-render-string [string coordinates string-color font-size]
   [
     let character (item index string)
     let new-x-coordinate (x-coordinate + (interval * index))
-    let rendered-turtle (ptemp-render-character character (list new-x-coordinate y-coordinate) string-color font-size)
+    let rendered-turtle (ptemp-render-character character (list new-x-coordinate y-coordinate) font-size string-color)
     set rendered-turtles (lput rendered-turtle rendered-turtles)
     
     set index (index + 1)
@@ -147,11 +207,11 @@ to-report ptemp-render-string [string coordinates string-color font-size]
   report rendered-turtles
 end
 
-to prender-character [character coordinates string-color font-size]
-  let garbage (ptemp-render-character character coordinates string-color font-size)
+to prender-character [character coordinates font-size string-color]
+  let garbage (ptemp-render-character character coordinates font-size string-color)
 end
 
-to-report ptemp-render-character [character coordinates string-color font-size]
+to-report ptemp-render-character [character coordinates font-size string-color]
   let x-coordinate (item 0 coordinates)
   let y-coordinate (item 1 coordinates)
   
