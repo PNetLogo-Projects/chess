@@ -30,3 +30,130 @@ to draw-settings-screen
   (load-settings-from-file settings-config-filename)
   update-settings-screen
 end
+
+to animate-settings-screen
+  let processed-mouse-down-event? true
+  let user-has-confirmed? false
+  let user-has-cancelled? false
+  let menu-options-turtles (display-turtles with [member? ycor [2 3 4 5]])
+  let ok-turtles (display-turtles with [xcor < 6 and ycor = .5])
+  let cancel-turtles (display-turtles with [xcor > 6 and ycor = .5])
+  
+  while [not user-has-confirmed? and not user-has-cancelled?]
+  [
+    let mouse-x (round mouse-xcor)
+    let mouse-y (round mouse-ycor)
+    
+    ask menu-options-turtles
+    [
+      ifelse ycor = mouse-y
+      [set color 125]
+      [set color 115]
+    ]
+    
+    if mouse-down? and (mouse-x = -3 and member? mouse-y [2 3 4 5])
+    [set processed-mouse-down-event? false]
+    if not processed-mouse-down-event? and (mouse-x = -3 and member? mouse-y [2 3 4 5])
+    [
+      menu-toggle-check-box mouse-x mouse-y
+      set processed-mouse-down-event? true
+      while [mouse-down?]
+      []
+    ]
+    
+    ask ok-turtles
+    [
+      ifelse hovering-over-ok?
+      [set color 125]
+      [set color 115]
+    ]
+    ask cancel-turtles
+    [
+      ifelse hovering-over-cancel?
+      [set color 125]
+      [set color 115]
+    ]
+    if mouse-down? and hovering-over-ok?
+    [
+      update-settings-variables
+      save-settings-to-file settings-config-filename
+      set user-has-confirmed? true
+    ]
+    if mouse-down? and hovering-over-cancel?
+    [set user-has-cancelled? true]
+  ]
+  
+  draw-splash-screen
+  animate-splash-screen
+end
+
+to update-settings-screen
+  let check-turtles (turtles with [shape = "check"])
+  ask check-turtles with [xcor = -3 and ycor = 5]
+  [set hidden? not settings-play-by-time?]
+  ask check-turtles with [xcor = -3 and ycor = 4]
+  [set hidden? not settings-highlight-valid-move?]
+  ask check-turtles with [xcor = -3 and ycor = 3]
+  [set hidden? not settings-switch-view?]
+  ask check-turtles with [xcor = -3 and ycor = 2]
+  [set hidden? not settings-allow-undo?]
+end
+
+to update-settings-variables
+  let check-turtles (turtles with [shape = "check"])
+  set settings-play-by-time? (not one-of [hidden?] of check-turtles with [xcor = -3 and ycor = 5])
+  set settings-highlight-valid-move? (not one-of  [hidden?] of check-turtles with [xcor = -3 and ycor = 4])
+  set settings-switch-view? (not one-of [hidden?] of check-turtles with [xcor = -3 and ycor = 3])
+  set settings-allow-undo? (not one-of [hidden?] of check-turtles with [xcor = -3 and ycor = 2])
+end
+
+to write-default-config [filename]
+  set settings-play-by-time? false
+  set settings-highlight-valid-move? false
+  set settings-switch-view? false
+  set settings-allow-undo? false
+  
+  save-settings-to-file filename
+end
+
+to load-settings-from-file [filename]
+  let result (read-from-file filename)
+  let file-content (item 0 result)
+  let err (item 1 result)
+  
+  ifelse err
+  [
+    write-default-config filename
+    load-settings-from-file filename
+  ]
+  [
+    set settings-play-by-time? (item 0 file-content)
+    set settings-highlight-valid-move? (item 1 file-content)
+    set settings-switch-view? (item 2 file-content)
+    set settings-allow-undo? (item 3 file-content)
+  ]
+end
+
+to save-settings-to-file [filename]
+  let success (write-to-file
+    filename 
+    (list settings-play-by-time?
+      settings-highlight-valid-move?
+      settings-switch-view?
+      settings-allow-undo?)
+    true)
+  if not success
+  [user-message "There was an error writing settings to config file!"]
+end
+
+to-report hovering-over-ok?
+  let ok-turtles (display-turtles with [xcor < 6 and ycor = .5])
+  report (mouse-ycor >= 0 and mouse-ycor <= 1 and 
+    mouse-xcor >= min [xcor] of ok-turtles and mouse-xcor <= max [xcor] of ok-turtles)
+end
+
+to-report hovering-over-cancel?
+  let cancel-turtles (display-turtles with [xcor > 6 and ycor = .5])
+  report (mouse-ycor >= 0 and mouse-ycor <= 1 and 
+    mouse-xcor >= min [xcor] of cancel-turtles and mouse-xcor <= max [xcor] of cancel-turtles)
+end
