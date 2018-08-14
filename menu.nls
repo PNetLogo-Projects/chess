@@ -1,0 +1,32 @@
+to menu-initialize-constants
+  set menu-left-align "left"
+  set menu-center-align "center"
+  set menu-right-align "right"
+end
+
+;; Note that the x-coordinate is used in conjunction with the alignment
+;; field to determine where the starting x-coordinate is
+;; (ie starting from (left-align), centered around (center-align), or
+;; ending at (right-align))
+to draw-menu [menu-items]
+  foreach menu-items
+  [
+    menu-item ->
+    
+    let option-string (item 0 menu-item)
+    let coordinates (item 1 menu-item)
+    let alignment (item 2 menu-item)
+    let font-size (item 3 menu-item)
+    let option-color (item 4 menu-item)
+  
+    let x-coordinate (item 0 coordinates)
+    let y-coordinate (item 1 coordinates)
+    
+    if alignment = menu-center-align
+    [set x-coordinate (get-start-x-at-alignment option-string x-coordinate text-center-align font-size)]
+    if alignment = menu-right-align
+    [set x-coordinate (get-start-x-at-alignment option-string x-coordinate text-right-align font-size)]
+    
+    (render-string option-string (list x-coordinate y-coordinate) option-color font-size)
+  ]
+end
