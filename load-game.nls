@@ -1,0 +1,30 @@
+to-report load-game
+  let filename (user-input "What do you want to name the save file?  (Do not include file extension)")
+  set filename (word filename ".sav")
+  let file-does-exists? (file-exists? filename)
+  file-close
+  
+  ifelse file-does-exists?
+  [
+    (load-game-from-file filename)
+    report true
+  ]
+  [
+    user-message "Unable to continue operation...  Will abort now."
+    report false
+  ]
+end
+
+to load-game-from-file [filename]
+  setup-game
+  
+  file-open filename
+  let fen-notation file-read
+  set game-move-history file-read
+  file-close
+
+  load-game-from-fen-notation fen-notation
+  sync-screen
+  
+  main-loop
+end
