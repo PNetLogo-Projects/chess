@@ -1,9 +1,34 @@
+globals [
+  text-left-align
+  text-center-align
+  text-right-align
+]
+
 breed [display-turtles display-turtle]
 
+to text-initialize-constants
+  set text-left-align "left"
+  set text-center-align "center"
+  set text-right-align "right"
+end
+
 to-report get-character-shape [character]
+  if character = " "
+  [report "__"]
   ifelse member? character "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   [report (word "_" character)]
   [report character]
+end
+
+to-report get-start-x-at-alignment [string x-coordinate alignment font-size]
+  let interval (font-size / 3)
+  
+  if alignment = text-left-align
+  [report x-coordinate]
+  if alignment = text-center-align
+  [report x-coordinate - ((length string) / 2 * interval)]
+  if alignment = text-right-align
+  [report x-coordinate - ((length string) * interval)]
 end
 
 to render-string [string coordinates string-color font-size]
