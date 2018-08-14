@@ -39,7 +39,10 @@ to animate-splash-screen
       if mouse-y = 4
       [new-game]
       if mouse-y = 3
-      [load-game]
+      [
+        if not load-game
+        [set user-has-selected? false]
+      ]
       if mouse-y = 2
       [draw-option-screen]
     ]
