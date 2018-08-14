@@ -73,10 +73,7 @@ end
 
 to pieces-mark-valid-moves
   if breed = pawns
-  [
-    pawn-mark-valid-move-spots
-    pawn-mark-valid-capture-spots false
-  ]
+  [pawn-mark-valid-move-spots]
   if breed = rooks
   [rook-mark-valid-move-spots]
   if breed = knights
