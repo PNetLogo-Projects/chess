@@ -9,6 +9,7 @@ __includes [
   "king.nls"
   "pawn.nls"
 
+  "files.nls"
   "menu.nls"
   "text.nls"
 
