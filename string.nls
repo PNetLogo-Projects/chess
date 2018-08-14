@@ -1,0 +1,94 @@
+breed [display-turtles display-turtle]
+
+to-report get-character-shape [character]
+  ifelse member? character "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  [report (word "_" character)]
+  [report character]
+end
+
+to render-string [string coordinates string-color font-size]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  let index 0
+  let interval (font-size / 3)
+  
+  while [index < length string]
+  [
+    let character (item index string)
+    (render-character character (list (x-coordinate + (interval * index)) y-coordinate) string-color font-size)
+    
+    set index (index + 1)
+  ]
+end
+
+to render-character [character coordinates string-color font-size]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  
+  crt 1
+  [
+    setxy x-coordinate y-coordinate
+    set breed display-turtles
+    set shape (get-character-shape character)
+    set size font-size
+    set color string-color
+  ]
+end
+
+to trender-string [string coordinates string-color font-size]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  let index 0
+  let interval (font-size / 3)
+  
+  while [index < length string]
+  [
+    let character (item index string)
+    (trender-character character (list (x-coordinate + (interval * index)) y-coordinate) string-color font-size)
+    
+    set index (index + 1)
+  ]
+end
+
+to trender-character [character coordinates string-color font-size]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  
+  hatch 1
+  [
+    setxy x-coordinate y-coordinate
+    set breed display-turtles
+    set shape (get-character-shape character)
+    set size font-size
+    set color string-color
+  ]
+end
+
+to prender-string [string coordinates string-color font-size]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  let index 0
+  let interval (font-size / 3)
+  
+  while [index < length string]
+  [
+    let character (item index string)
+    (prender-character character (list (x-coordinate + (interval * index)) y-coordinate) string-color font-size)
+    
+    set index (index + 1)
+  ]
+end
+
+to prender-character [character coordinates string-color font-size]
+  let x-coordinate (item 0 coordinates)
+  let y-coordinate (item 1 coordinates)
+  
+  sprout 1
+  [
+    setxy x-coordinate y-coordinate
+    set breed display-turtles
+    set shape (get-character-shape character)
+    set size font-size
+    set color string-color
+  ]
+end
