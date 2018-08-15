@@ -44,6 +44,9 @@ globals [
   menu-right-align
 
   settings-config-filename
+  settings-game-clock-time-index
+  settings-game-clock-time-turtles
+  settings-game-clock-times
   settings-play-by-time?
   settings-highlight-valid-move?
   settings-switch-view?
