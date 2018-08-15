@@ -13,6 +13,7 @@ to game-initialize-globals
   set game-last-move-was-capture? false
   set game-fifty-moves-rule-counter 0
   set game-move-history []
+  set game-undo-turtles nobody
 end
 
 to new-game
@@ -43,6 +44,8 @@ to main-loop
       set mouse-up? false
       handle-user-input
     ]
+    draw-undo
+    handle-undo
   ]
 end
 
@@ -110,6 +113,41 @@ to switch-view
   ]
 end
 
+to draw-undo
+  ifelse settings-allow-undo? and (length game-move-history) > 0
+  [
+    if game-undo-turtles = nobody
+    [set game-undo-turtles (turtle-set (temp-aligned-render-string "Undo" [-3 2] text-center-align 1 black))]
+  ]
+  [
+    if game-undo-turtles != nobody
+    [
+      ask game-undo-turtles
+      [die]
+    ]
+    set game-undo-turtles nobody
+  ]
+  sync-screen
+end
+
+to handle-undo
+  if game-undo-turtles != nobody
+  [
+    ask game-undo-turtles
+    [
+      ifelse hovering-over-undo?
+      [set color white]
+      [set color black]
+    ]
+  ]
+  if mouse-down? and hovering-over-undo?
+  [
+    undo
+    while [mouse-down?]
+    []
+  ]
+end
+
 to undo
   if length game-move-history > 0
   [
@@ -170,4 +208,14 @@ to next-turn
     set game-turn game-white-turn
     set game-turn-color game-white-color
   ]
+end
+
+to-report hovering-over-undo?
+  if game-undo-turtles = nobody
+  [report false]
+  let undo-min-x min [xcor] of game-undo-turtles
+  let undo-max-x max [xcor] of game-undo-turtles
+  let undo-y one-of [ycor] of game-undo-turtles
+  report (mouse-xcor >= undo-min-x and mouse-xcor <= undo-max-x
+    and mouse-ycor >= undo-y - .5 and mouse-ycor <= undo-y + .5)
 end
