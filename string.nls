@@ -1,0 +1,14 @@
+to-report explode-string [string divider]
+  let result []
+  
+  let end-pos (position ":" string)
+  while [end-pos != false]
+  [
+    set result (lput (substring string 0 end-pos) result)
+    set string (substring string (end-pos + 1) (length string))
+    set end-pos (position ":" string)
+  ]
+  
+  set result (lput string result)
+  report result
+end
