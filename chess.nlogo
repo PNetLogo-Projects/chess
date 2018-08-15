@@ -578,6 +578,11 @@ Rectangle -7500403 true true 105 165 120 180
 Polygon -7500403 true true 90 165 120 195 135 180 105 150
 Polygon -7500403 true true 120 180 195 105 210 120 135 195
 
+check-box
+false
+0
+Rectangle -7500403 true true 45 45 255 255
+
 d
 false
 0
