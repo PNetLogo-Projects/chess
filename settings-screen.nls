@@ -13,17 +13,19 @@ to draw-settings-screen
   initialize-constants
   initialize-globals
   
+  (render-string "Settings Menu" [-3 6.5] 1 115)
   let checks-x-coordinate -3
   let checks-hidden-state? true
   let check-box-color white
   let check-color black
   (draw-menu-with-checks 
     (list checks-x-coordinate checks-hidden-state? check-box-color check-color)
-    (list (list "Settings Menu" [-3 6.5] menu-left-align 1 115)
+    (list 
       (list "Game Clock" [-2 5] menu-left-align 1 115)
       (list "Highlight Available Moves" [-2 4] menu-left-align 1 115)
       (list "Switch View in 2 Players" [-2 3] menu-left-align 1 115)
       (list "Allow Players to Undo Moves" [-2 2] menu-left-align 1 115)))
+  
   (aligned-render-string "Ok" [2.25 .5] text-center-align 1 115)
   (aligned-render-string "Cancel" [7.75 .5] text-center-align 1 115)
   
