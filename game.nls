@@ -58,6 +58,7 @@ to handle-user-input
       set game-selected-piece one-of turtles-here
       ask game-selected-piece
       [pieces-mark-valid-moves]
+      highlight-marked
     ]
     if not any? turtles-here with [color = game-turn-color] and (within-board-bounds? mouse-x mouse-y)
     [
@@ -88,6 +89,15 @@ end
 
 to update-game-move-history
   set game-move-history (lput (save-game-to-fen-notation) game-move-history)
+end
+
+to highlight-marked
+  if settings-highlight-valid-move?
+  [
+    ask patches with [marked?]
+    [set pcolor yellow]
+    sync-screen
+  ]
 end
 
 to undo
