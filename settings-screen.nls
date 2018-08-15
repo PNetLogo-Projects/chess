@@ -3,6 +3,9 @@ to settings-initialize-constants
 end
 
 to settings-initialize-globals
+  set settings-game-clock-times (list " 1:00" " 3:00" " 5:00" "10:00" "15:00" "30:00" "60:00")
+  set settings-game-clock-time-index 2
+  set settings-game-clock-time-turtles []
   (load-settings-from-file "config.ini")
 end
 
@@ -29,6 +32,11 @@ to draw-settings-screen
   (aligned-render-string "Ok" [2.25 .5] text-center-align 1 115)
   (aligned-render-string "Cancel" [7.75 .5] text-center-align 1 115)
   
+  (render-string "<" [5 5] 1 115)
+  let time (item settings-game-clock-time-index settings-game-clock-times)
+  (set settings-game-clock-time-turtles (temp-aligned-render-string time [6.1 5] text-center-align 1 115))
+  (render-string ">" [7 5] 1 115)
+  
   (load-settings-from-file settings-config-filename)
   update-settings-screen
 end
@@ -37,20 +45,51 @@ to animate-settings-screen
   let processed-mouse-down-event? true
   let user-has-confirmed? false
   let user-has-cancelled? false
-  let menu-options-turtles (display-turtles with [member? ycor [2 3 4 5]])
   let ok-turtles (display-turtles with [xcor < 6 and ycor = .5])
   let cancel-turtles (display-turtles with [xcor > 6 and ycor = .5])
+  let previous-turtle (display-turtles with [shape = "<"])
+  let next-turtle (display-turtles with [shape = ">"])
   
   while [not user-has-confirmed? and not user-has-cancelled?]
   [
     let mouse-x (round mouse-xcor)
     let mouse-y (round mouse-ycor)
     
-    ask menu-options-turtles
+    ask previous-turtle
     [
-      ifelse ycor = mouse-y
+      ifelse hovering-over-previous?
       [set color 125]
       [set color 115]
+    ]
+    ask next-turtle
+    [
+      ifelse hovering-over-next?
+      [set color 125]
+      [set color 115]
+    ]
+    if mouse-down? and (hovering-over-previous? or hovering-over-next?)
+    [set processed-mouse-down-event? false]
+    if not processed-mouse-down-event? and hovering-over-previous?
+    [
+      set settings-game-clock-time-index ((settings-game-clock-time-index - 1) mod (length settings-game-clock-times))
+      ask (turtle-set settings-game-clock-time-turtles)
+      [die]
+      let time (item settings-game-clock-time-index settings-game-clock-times)
+      (set settings-game-clock-time-turtles (temp-aligned-render-string time [6.1 5] text-center-align 1 115))
+      set processed-mouse-down-event? true
+      while [mouse-down?]
+      []
+    ]
+    if not processed-mouse-down-event? and hovering-over-next?
+    [
+      set settings-game-clock-time-index ((settings-game-clock-time-index + 1) mod (length settings-game-clock-times))
+      ask (turtle-set settings-game-clock-time-turtles)
+      [die]
+      let time (item settings-game-clock-time-index settings-game-clock-times)
+      (set settings-game-clock-time-turtles (temp-aligned-render-string time [6.1 5] text-center-align 1 115))
+      set processed-mouse-down-event? true
+      while [mouse-down?]
+      []
     ]
     
     if mouse-down? and (mouse-x = -3 and member? mouse-y [2 3 4 5])
@@ -111,6 +150,7 @@ end
 
 to write-default-config [filename]
   set settings-play-by-time? false
+  set settings-game-clock-time-index 2
   set settings-highlight-valid-move? false
   set settings-switch-view? false
   set settings-allow-undo? false
@@ -130,9 +170,10 @@ to load-settings-from-file [filename]
   ]
   [
     set settings-play-by-time? (item 0 file-content)
-    set settings-highlight-valid-move? (item 1 file-content)
-    set settings-switch-view? (item 2 file-content)
-    set settings-allow-undo? (item 3 file-content)
+    set settings-game-clock-time-index (item 1 file-content)
+    set settings-highlight-valid-move? (item 2 file-content)
+    set settings-switch-view? (item 3 file-content)
+    set settings-allow-undo? (item 4 file-content)
   ]
 end
 
@@ -140,6 +181,7 @@ to save-settings-to-file [filename]
   let success (write-to-file
     filename 
     (list settings-play-by-time?
+      settings-game-clock-time-index
       settings-highlight-valid-move?
       settings-switch-view?
       settings-allow-undo?)
@@ -158,4 +200,24 @@ to-report hovering-over-cancel?
   let cancel-turtles (display-turtles with [xcor > 6 and ycor = .5])
   report (mouse-ycor >= 0 and mouse-ycor <= 1 and 
     mouse-xcor >= min [xcor] of cancel-turtles and mouse-xcor <= max [xcor] of cancel-turtles)
+end
+
+to-report hovering-over-previous?
+  if not any? display-turtles with [shape = "<"]
+  [report false]
+  let previous-turtle (one-of display-turtles with [shape = "<"])
+  let previous-xcor [xcor] of previous-turtle
+  let previous-ycor [ycor] of previous-turtle
+  report (mouse-xcor >= previous-xcor - .5 and mouse-xcor <= previous-xcor + .5 and
+    mouse-ycor >= previous-ycor - .5 and mouse-ycor <= previous-ycor + .5)
+end
+
+to-report hovering-over-next?
+  if not any? display-turtles with [shape = ">"]
+  [report false]
+  let next-turtle (one-of display-turtles with [shape = ">"])
+  let next-xcor [xcor] of next-turtle
+  let next-ycor [ycor] of next-turtle
+  report (mouse-xcor >= next-xcor - .5 and mouse-xcor <= next-xcor + .5 and
+    mouse-ycor >= next-ycor - .5 and mouse-ycor <= next-ycor + .5)
 end
