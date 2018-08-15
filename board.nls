@@ -38,6 +38,7 @@ to reset-marks
     set marked? false
     set pcolor orig-color
   ]
+  sync-screen
 end
 
 to save-marks-to-saved-marked
