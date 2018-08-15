@@ -14,6 +14,8 @@ to game-initialize-globals
   set game-fifty-moves-rule-counter 0
   set game-move-history []
   set game-undo-turtles nobody
+  set game-clock-times []
+  set game-clock-turtles (list nobody nobody)
 end
 
 to new-game
@@ -34,7 +36,11 @@ end
 to main-loop
   let game-over false
   let mouse-up? (not mouse-down?)
+  set game-clock-times (list
+    (item settings-game-clock-time-index settings-game-clock-times)
+    (item settings-game-clock-time-index settings-game-clock-times))
 
+  reset-timer
   while [not game-over]
   [
     if not mouse-down?
@@ -46,6 +52,7 @@ to main-loop
     ]
     draw-undo
     handle-undo
+    update-game-clock
   ]
 end
 
@@ -94,6 +101,57 @@ end
 
 to update-game-move-history
   set game-move-history (lput (save-game-to-fen-notation) game-move-history)
+end
+
+to draw-game-clock
+  let index-list [0 1]
+  let title-list ["White's Turn" "Black's Turn"]
+  let y-coordinate-list [1 5]
+  
+  foreach index-list
+  [
+    index ->
+    
+    let title (item index title-list)
+    let y-coordinate (item index y-coordinate-list)
+    if (item index game-clock-turtles) = nobody
+    [
+      aligned-render-string title (list 11.5 (y-coordinate + 1)) text-center-align 1 black
+      let initial-time (item index game-clock-times)
+      let rendered-turtles (temp-aligned-render-string initial-time (list 11.5 y-coordinate) text-center-align 1 black)
+      set game-clock-turtles (replace-item index game-clock-turtles rendered-turtles)
+    ]
+    ask (item index game-clock-turtles)
+    [die]
+    let new-time (item index game-clock-times)
+    let rendered-turtles (temp-aligned-render-string new-time (list 11.5 y-coordinate) text-center-align 1 black)
+    set game-clock-turtles (replace-item index game-clock-turtles rendered-turtles)
+  ]
+end
+
+to update-game-clock
+  if settings-play-by-time?
+  [
+    draw-game-clock
+    let elapsed-time (simplify-seconds (floor timer))
+    
+    if (total-seconds elapsed-time) != 0
+    [
+      ifelse game-turn = game-white-turn
+      [
+        let new-time (subtract-time-string "%M:%S" (item 0 game-clock-times) (strftime "%M:%S" elapsed-time))
+        set game-clock-times (replace-item 0 game-clock-times new-time)
+        draw-game-clock
+      ]
+      [
+        let new-time (subtract-time-string "%M:%S" (item 1 game-clock-times) (strftime "%M:%S" elapsed-time))
+        set game-clock-times (replace-item 1 game-clock-times new-time)
+        draw-game-clock
+      ]
+      reset-timer
+    ]
+    sync-screen
+  ]
 end
 
 to highlight-marked
@@ -204,10 +262,12 @@ to next-turn
   [
     set game-turn game-black-turn
     set game-turn-color game-black-color
+    reset-timer
   ]
   [
     set game-turn game-white-turn
     set game-turn-color game-white-color
+    reset-timer
   ]
 end
 
