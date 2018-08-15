@@ -12,6 +12,8 @@ __includes [
   "files.nls"
   "menu.nls"
   "text.nls"
+  "string.nls"
+  "time.nls"
 
   "game.nls"
 ]
