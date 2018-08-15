@@ -32,6 +32,21 @@ to color-patch-spot [colour save?]
   [set orig-color pcolor]
 end
 
+to flip-board
+  ask patches with [within-board-bounds? pxcor pycor]
+  [
+    ifelse pcolor = board-light-color
+    [
+      set pcolor board-dark-color
+      set orig-color board-dark-color
+    ]
+    [
+      set pcolor board-light-color
+      set orig-color board-light-color
+    ]
+  ]
+end
+
 to reset-marks
   ask patches with [marked?]
   [
@@ -49,4 +64,8 @@ end
 to load-marks-from-saved-marked
   ask patches with [true]
   [set marked? saved-marked?]
+end
+
+to-report within-board-bounds? [x-coordinate y-coordinate]
+  report x-coordinate >= 0 and x-coordinate <= 7 and y-coordinate >= 0 and y-coordinate <= 7
 end
