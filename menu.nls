@@ -52,10 +52,13 @@ to draw-menu-with-checks [checks-info menu-items]
     [(aligned-render-string option-string coordinates text-right-align font-size option-color)]
 
     let y-coordinate (item 1 coordinates)
-    ask patches with [pxcor = checks-x-coordinate and pycor = y-coordinate]
+    crt 1
     [
-      set pcolor check-box-color
-      sprout 1
+      setxy checks-x-coordinate y-coordinate
+      set shape "check-box"
+      set color check-box-color
+      set size font-size
+      hatch 1
       [
         set shape "check"
         set color check-color
