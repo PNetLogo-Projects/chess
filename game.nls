@@ -53,12 +53,13 @@ to handle-user-input
   
   ask patches-at-mouse-coordinates
   [
-    ifelse any? turtles-here with [color = game-turn-color]
+    if any? turtles-here with [color = game-turn-color]
     [
       set game-selected-piece one-of turtles-here
       ask game-selected-piece
       [pieces-mark-valid-moves]
     ]
+    if not any? turtles-here with [color = game-turn-color] and (within-board-bounds? mouse-x mouse-y)
     [
       update-game-move-history
       set game-last-move-was-capture? false
