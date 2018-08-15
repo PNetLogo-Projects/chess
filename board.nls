@@ -3,10 +3,13 @@ __includes [
   "save-fen-notation.nls"
 ]
 
+to board-initialize-constants
+  set board-light-color 8
+  set board-dark-color 57
+  set margin-color brown
+end
+
 to render-board 
-  let margin-color brown
-  let board-light-color 8
-  let board-dark-color 57
   let save-color? true
   
   ask patches [

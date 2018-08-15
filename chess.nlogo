@@ -17,6 +17,10 @@ __includes [
 ]
 
 globals [
+  board-light-color
+  board-dark-color
+  margin-color
+
   pieces-left-direction
   pieces-right-direction
   pieces-up-direction
@@ -57,6 +61,7 @@ patches-own [orig-color marked? saved-marked?]
 turtles-own [moved?]
 
 to initialize-constants
+  board-initialize-constants
   game-initialize-constants
   menu-initialize-constants
   pieces-initialize-constants
