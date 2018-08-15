@@ -5,7 +5,7 @@ end
 to settings-initialize-globals
   set settings-game-clock-times (list " 1:00" " 3:00" " 5:00" "10:00" "15:00" "30:00" "60:00")
   set settings-game-clock-time-index 2
-  set settings-game-clock-time-turtles []
+  set settings-game-clock-time-turtles [nobody nobody]
   (load-settings-from-file "config.ini")
 end
 
