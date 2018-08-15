@@ -15,6 +15,11 @@ to game-initialize-globals
   set game-move-history []
 end
 
+to new-game
+  setup-game
+  main-loop
+end
+
 to setup-game
   ca
   initialize-constants
@@ -23,11 +28,6 @@ to setup-game
   render-board
   render-pieces
   sync-screen
-end
-
-to new-game
-  setup-game
-  main-loop
 end
 
 to main-loop
