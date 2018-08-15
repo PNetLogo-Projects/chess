@@ -117,7 +117,7 @@ to draw-undo
   ifelse settings-allow-undo? and (length game-move-history) > 0
   [
     if game-undo-turtles = nobody
-    [set game-undo-turtles (turtle-set (temp-aligned-render-string "Undo" [-3 2] text-center-align 1 black))]
+    [set game-undo-turtles (temp-aligned-render-string "Undo" [-3 2] text-center-align 1 black)]
   ]
   [
     if game-undo-turtles != nobody

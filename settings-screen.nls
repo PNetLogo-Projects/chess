@@ -69,7 +69,7 @@ to animate-settings-screen
     if mouse-down? and hovering-over-previous?
     [
       set settings-game-clock-time-index ((settings-game-clock-time-index - 1) mod (length settings-game-clock-times))
-      ask (turtle-set settings-game-clock-time-turtles)
+      ask settings-game-clock-time-turtles
       [die]
       let time (item settings-game-clock-time-index settings-game-clock-times)
       (set settings-game-clock-time-turtles (temp-aligned-render-string time [6.1 5] text-center-align 1 115))
@@ -79,7 +79,7 @@ to animate-settings-screen
     if mouse-down? and hovering-over-next?
     [
       set settings-game-clock-time-index ((settings-game-clock-time-index + 1) mod (length settings-game-clock-times))
-      ask (turtle-set settings-game-clock-time-turtles)
+      ask settings-game-clock-time-turtles
       [die]
       let time (item settings-game-clock-time-index settings-game-clock-times)
       (set settings-game-clock-time-turtles (temp-aligned-render-string time [6.1 5] text-center-align 1 115))

@@ -30,6 +30,6 @@ to write-game-to-file [filename]
   file-write game-move-history
   file-close
   
-  ask (turtle-set rendered-turtles)
+  ask rendered-turtles
   [die]
 end
