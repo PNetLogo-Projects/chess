@@ -82,6 +82,7 @@ to handle-user-input
         advance-fifty-moves-rule-counter
         reset-marks
         next-turn
+        switch-view
       ]
     ]
   ]
@@ -96,6 +97,15 @@ to highlight-marked
   [
     ask patches with [marked?]
     [set pcolor yellow]
+    sync-screen
+  ]
+end
+
+to switch-view
+  if settings-switch-view?
+  [
+    flip-board
+    flip-pieces
     sync-screen
   ]
 end
