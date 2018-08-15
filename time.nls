@@ -1,0 +1,99 @@
+to-report strftime [format time-tuple]
+  set time-tuple (simplify-seconds (total-seconds time-tuple))
+  let time-as-string ""
+  
+  foreach (explode-string format ":")
+  [
+    format-piece ->
+    
+    if format-piece = "%H"
+    [set time-as-string (word time-as-string (item 0 time-tuple) ":")]
+    if format-piece = "%M"
+    [set time-as-string (word time-as-string (item 1 time-tuple) ":")]
+    if format-piece = "%S"
+    [set time-as-string (word time-as-string (item 2 time-tuple) ":")]
+  ]
+    
+  report (substring time-as-string 0 ((length time-as-string) - 1))
+end
+
+to-report strptime [format time-string]
+  let time-tuple [0 0 0]
+  
+  let exploded-format (explode-string format ":")
+  let exploded-time-string (explode-string time-string ":")
+  
+  foreach (range 0 (length exploded-format))
+  [
+    index ->
+    
+    let format-piece (item index exploded-format)
+    let time-piece (item index exploded-time-string)
+    
+    if format-piece = "%H"
+    [set time-tuple (replace-item 0 time-tuple (read-from-string time-piece))]
+    if format-piece = "%M"
+    [set time-tuple (replace-item 1 time-tuple (read-from-string time-piece))]
+    if format-piece = "%S"
+    [set time-tuple (replace-item 2 time-tuple (read-from-string time-piece))]
+  ]
+    
+  report time-tuple
+end
+
+to-report total-seconds [time-tuple]
+  let result 0
+  if (length time-tuple) = 3
+  [set result (result + (3600 * (item 0 time-tuple)) + (60 * (item 1 time-tuple)) + (item 2 time-tuple))]
+  if (length time-tuple) = 2
+  [set result (result + (60 * (item 0 time-tuple)) + (item 1 time-tuple))]
+  if (length time-tuple) = 1
+  [set result (result + (item 0 time-tuple))]
+  
+  report result
+end
+
+to-report simplify-seconds [seconds]
+  let hours (int (seconds / 3600))
+  let remaining-seconds (remainder seconds 3600)
+  let minutes (int (remaining-seconds / 60))
+  set remaining-seconds (remainder remaining-seconds 60)
+  
+  report (list hours minutes remaining-seconds)
+end
+
+to-report add-time-string [format first-time-string second-time-string]
+  let first-time (strptime format first-time-string)
+  let second-time (strptime format second-time-string)
+  
+  let first-time-in-seconds (total-seconds first-time)
+  let second-time-in-seconds (total-seconds second-time)
+  
+  report (padded-time-string (strftime format (simplify-seconds (first-time-in-seconds + second-time-in-seconds))))
+end
+
+to-report subtract-time-string [format first-time-string second-time-string]
+  let first-time (strptime format first-time-string)
+  let second-time (strptime format second-time-string)
+  
+  let first-time-in-seconds (total-seconds first-time)
+  let second-time-in-seconds (total-seconds second-time)
+  
+  report (padded-time-string (strftime format (simplify-seconds (first-time-in-seconds - second-time-in-seconds))))
+end
+
+to-report padded-time-string [time-string]
+  let result ""
+  
+  foreach (explode-string time-string ":")
+  [
+    time-piece ->
+    
+    while [(length time-piece < 2)]
+    [set time-piece (word "0" time-piece)]
+    
+    set result (word result time-piece ":")
+  ]
+  
+  report (substring result 0 ((length result) - 1))
+end
