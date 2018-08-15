@@ -58,6 +58,7 @@ to handle-user-input
   [
     if any? turtles-here with [color = game-turn-color]
     [
+      reset-marks
       set game-selected-piece one-of turtles-here
       ask game-selected-piece
       [pieces-mark-valid-moves]
