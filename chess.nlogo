@@ -43,6 +43,8 @@ globals [
   game-last-move-was-capture?
   game-move-history
   game-undo-turtles
+  game-clock-times
+  game-clock-turtles
 
   menu-left-align
   menu-center-align
