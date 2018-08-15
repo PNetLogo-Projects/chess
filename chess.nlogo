@@ -80,7 +80,7 @@ to initialize-globals
 end
 
 to sync-screen
-  wait .1
+  wait .01
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
