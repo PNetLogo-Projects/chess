@@ -42,7 +42,6 @@ to draw-settings-screen
 end
 
 to animate-settings-screen
-  let processed-mouse-down-event? true
   let user-has-confirmed? false
   let user-has-cancelled? false
   let ok-turtles (display-turtles with [xcor < 6 and ycor = .5])
@@ -67,37 +66,30 @@ to animate-settings-screen
       [set color 125]
       [set color 115]
     ]
-    if mouse-down? and (hovering-over-previous? or hovering-over-next?)
-    [set processed-mouse-down-event? false]
-    if not processed-mouse-down-event? and hovering-over-previous?
+    if mouse-down? and hovering-over-previous?
     [
       set settings-game-clock-time-index ((settings-game-clock-time-index - 1) mod (length settings-game-clock-times))
       ask (turtle-set settings-game-clock-time-turtles)
       [die]
       let time (item settings-game-clock-time-index settings-game-clock-times)
       (set settings-game-clock-time-turtles (temp-aligned-render-string time [6.1 5] text-center-align 1 115))
-      set processed-mouse-down-event? true
       while [mouse-down?]
       []
     ]
-    if not processed-mouse-down-event? and hovering-over-next?
+    if mouse-down? and hovering-over-next?
     [
       set settings-game-clock-time-index ((settings-game-clock-time-index + 1) mod (length settings-game-clock-times))
       ask (turtle-set settings-game-clock-time-turtles)
       [die]
       let time (item settings-game-clock-time-index settings-game-clock-times)
       (set settings-game-clock-time-turtles (temp-aligned-render-string time [6.1 5] text-center-align 1 115))
-      set processed-mouse-down-event? true
       while [mouse-down?]
       []
     ]
     
     if mouse-down? and (mouse-x = -3 and member? mouse-y [2 3 4 5])
-    [set processed-mouse-down-event? false]
-    if not processed-mouse-down-event? and (mouse-x = -3 and member? mouse-y [2 3 4 5])
     [
       menu-toggle-check-box mouse-x mouse-y
-      set processed-mouse-down-event? true
       while [mouse-down?]
       []
     ]
