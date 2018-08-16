@@ -142,6 +142,11 @@ to pieces-ensure-moves-will-not-danger-king
 end
 
 to pieces-assess-if-move-was-special
+  if (pawn-can-be-promoted? game-last-moved-piece)
+  [pawn-promotion-screen]
+end
+
+to tpieces-assess-if-move-was-special
   ifelse breed = pawns
   [
     pawn-assess-can-be-enpassanted
@@ -151,6 +156,7 @@ to pieces-assess-if-move-was-special
   if breed = kings
   [king-assess-is-attempt-to-castle]
 end
+
 
 to pieces-mark-horizontal [search-depth mark-obstacles]
   pieces-mark-direction pieces-left-direction pieces-same-direction search-depth mark-obstacles
