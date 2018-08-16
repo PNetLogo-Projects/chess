@@ -1,0 +1,224 @@
+to show-game-over-by-checkmate-screen [winner]
+  (draw-game-over-by-checkmate-screen winner)
+  animate-game-over-by-checkmate-screen
+end
+
+to draw-game-over-by-checkmate-screen [winner]
+  ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+  [die]
+  
+  crt 1
+  [
+    set breed display-turtles
+    setxy 3.5 3.5
+    set shape "alpha-background"
+    set size 8
+    set color [255 255 255 210]
+  ]
+  
+  let message (word "Checkmate: " winner " wins!")
+  (aligned-render-string message [3.75 4.5] menu-center-align 1 black)
+  (aligned-render-string "Continue" [1.75 3] menu-center-align 1 black)
+  (aligned-render-string "Quit" [5.75 3] menu-center-align 1 black)
+end
+
+to animate-game-over-by-checkmate-screen
+  let user-has-selected? false
+  let continue-turtle (display-turtles with [xcor >= 0 and xcor < 3.75 and ycor = 3])
+  let quit-turtle (display-turtles with [xcor > 3.75 and xcor <= 7 and ycor = 3])
+  while [not user-has-selected?]
+  [
+    ask continue-turtle
+    [
+      ifelse game-over-hovering-over-continue?
+      [set color blue]
+      [set color black]
+    ]
+    ask quit-turtle
+    [
+      ifelse game-over-hovering-over-quit?
+      [set color blue]
+      [set color black]
+    ]
+    
+    if mouse-down? and game-over-hovering-over-continue?
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+    ]
+    if mouse-down? and game-over-hovering-over-quit?
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+      draw-splash-screen
+      animate-splash-screen
+    ]
+    sync-screen
+  ]
+end
+
+to show-game-over-by-stalemate-screen
+  draw-game-over-by-stalemate-screen
+  animate-game-over-by-stalemate-screen
+end
+
+to draw-game-over-by-stalemate-screen
+  ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+  [die]
+  
+  crt 1
+  [
+    set breed display-turtles
+    setxy 3.5 3.5
+    set shape "alpha-background"
+    set size 8
+    set color [255 255 255 210]
+  ]
+
+  (aligned-render-string "Stalemate!" [3.75 4.5] menu-center-align 1 black)
+  (aligned-render-string "Continue" [1.75 3] menu-center-align 1 black)
+  (aligned-render-string "Quit" [5.75 3] menu-center-align 1 black)
+end
+
+to animate-game-over-by-stalemate-screen
+  let user-has-selected? false
+  let continue-turtle (display-turtles with [xcor >= 0 and xcor < 3.75 and ycor = 3])
+  let quit-turtle (display-turtles with [xcor > 3.75 and xcor <= 7 and ycor = 3])
+  while [not user-has-selected?]
+  [
+    ask continue-turtle
+    [
+      ifelse game-over-hovering-over-continue?
+      [set color blue]
+      [set color black]
+    ]
+    ask quit-turtle
+    [
+      ifelse game-over-hovering-over-quit?
+      [set color blue]
+      [set color black]
+    ]
+    
+    if mouse-down? and game-over-hovering-over-continue?
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+    ]
+    if mouse-down? and game-over-hovering-over-quit?
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+      draw-splash-screen
+      animate-splash-screen
+    ]
+    sync-screen
+  ]
+end
+
+to show-draw-offer-screen [reason]
+  (draw-draw-offer-screen reason)
+  animate-draw-offer-screen
+end
+
+to draw-draw-offer-screen [reason]
+  ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+  [die]
+  
+  crt 1
+  [
+    set breed display-turtles
+    setxy 3.5 3.5
+    set shape "alpha-background"
+    set size 8
+    set color [255 255 255 210]
+  ]
+  
+  (aligned-render-string "Do you want to draw by" [3.75 5] menu-center-align 1 black)
+  (aligned-render-string (word reason "?") [3.75 4] menu-center-align 1 black)
+  (aligned-render-string "Continue" [1.75 3] menu-center-align 1 black)
+  (aligned-render-string "Draw" [5.75 3] menu-center-align 1 black)
+end
+
+to animate-draw-offer-screen
+  let user-has-selected? false
+  let continue-turtle (display-turtles with [xcor >= 0 and xcor < 3.75 and ycor = 3])
+  let draw-turtle (display-turtles with [xcor > 3.75 and xcor <= 7 and ycor = 3])
+  while [not user-has-selected?]
+  [
+    ask continue-turtle
+    [
+      ifelse game-over-hovering-over-continue?
+      [set color blue]
+      [set color black]
+    ]
+    ask draw-turtle
+    [
+      ifelse game-over-hovering-over-draw?
+      [set color blue]
+      [set color black]
+    ]
+    
+    if mouse-down? and game-over-hovering-over-continue?
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+    ]
+    if mouse-down? and game-over-hovering-over-draw?
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+      draw-splash-screen
+      animate-splash-screen
+    ]
+    sync-screen
+  ]
+end
+
+to-report game-over-hovering-over-continue?
+  let continue-turtle (display-turtles with [xcor >= 0 and xcor < 3.75 and ycor = 3])
+  if not any? continue-turtle
+  [report false]
+  let continue-turtle-min-x min [xcor] of continue-turtle
+  let continue-turtle-max-x max [xcor] of continue-turtle
+  
+  report (mouse-xcor >= continue-turtle-min-x - .5 and mouse-xcor <= continue-turtle-max-x + .5
+    and (round mouse-ycor) = 3)
+end
+
+to-report game-over-hovering-over-quit?
+  let quit-turtle (display-turtles with [xcor > 3.75 and xcor <= 7 and ycor = 3])
+  if not any? quit-turtle
+  [report false]
+  let quit-turtle-min-x min [xcor] of quit-turtle
+  let quit-turtle-max-x max [xcor] of quit-turtle
+  
+  report mouse-xcor >= quit-turtle-min-x - .5 and mouse-xcor <= quit-turtle-max-x + .5 and (round mouse-ycor) = 3
+end
+
+to-report game-over-hovering-over-draw?
+  let draw-turtle (display-turtles with [xcor > 3.75 and xcor <= 7 and ycor = 3])
+  if not any? draw-turtle
+  [report false]
+  let draw-turtle-min-x min [xcor] of draw-turtle
+  let draw-turtle-max-x max [xcor] of draw-turtle
+  
+  report mouse-xcor >= draw-turtle-min-x - .5 and mouse-xcor <= draw-turtle-max-x + .5 and (round mouse-ycor) = 3
+end
