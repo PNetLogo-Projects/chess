@@ -1,0 +1,147 @@
+to pawn-promotion-screen
+  draw-pawn-promotion-yes-or-no-screen
+  animate-pawn-promotion-yes-or-no-screen
+end
+
+to draw-pawn-promotion-yes-or-no-screen
+  ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+  [die]
+  
+  crt 1
+  [
+    set breed display-turtles
+    setxy 3.5 3.5
+    set shape "alpha-background"
+    set size 8
+    set color [255 255 255 210]
+  ]
+  
+  (aligned-render-string "Do you want to promote" [3.75 5] text-center-align 1 black)
+  (aligned-render-string "the pawn?" [3.75 4] text-center-align 1 black)
+  (aligned-render-string "Yes" [1.75 3] text-center-align 1 black)
+  (aligned-render-string "No" [5.75 3] text-center-align 1 black)
+  sync-screen
+end
+
+to animate-pawn-promotion-yes-or-no-screen
+  let user-has-selected? false
+  let yes-turtle (display-turtles with [xcor >= 0 and xcor < 3.75 and ycor = 3])
+  let no-turtle (display-turtles with [xcor > 3.75 and xcor <= 7 and ycor = 3])
+  while [not user-has-selected?]
+  [
+    ask yes-turtle
+    [
+      ifelse pawn-promotion-hovering-over-yes?
+      [set color blue]
+      [set color black]
+    ]
+    ask no-turtle
+    [
+      ifelse pawn-promotion-hovering-over-no?
+      [set color blue]
+      [set color black]
+    ]
+    
+    if mouse-down? and pawn-promotion-hovering-over-yes?
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+      draw-pawn-promotion-selection-screen
+      animate-pawn-promotion-selection-screen
+    ]
+    if mouse-down? and pawn-promotion-hovering-over-no?
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+    ]
+  ]
+end
+
+to draw-pawn-promotion-selection-screen
+  ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+  [die]
+
+  crt 1
+  [
+    set breed display-turtles
+    setxy 3.5 3.5
+    set shape "alpha-background"
+    set size 8
+    set color [255 255 255 210]
+  ]
+  
+  (draw-menu (list
+    (list "Rook" [1 5] menu-left-align 1 black)
+    (list "Knight" [1 4] menu-left-align 1 black)
+    (list "Bishop" [1 3] menu-left-align 1 black)
+    (list "Queen" [1 2] menu-left-align 1 black)))
+end
+
+to animate-pawn-promotion-selection-screen
+  let user-has-selected? false
+  let menu-options-turtles (display-turtles with [member? ycor [2 3 4 5] and within-board-bounds? xcor ycor])
+  let menu-options-min-x min [xcor] of menu-options-turtles
+  let menu-options-max-x max [xcor] of menu-options-turtles
+  
+  while [not user-has-selected?]
+  [
+    let mouse-x (round mouse-xcor)
+    let mouse-y (round mouse-ycor)
+    
+    ask menu-options-turtles
+    [
+      ifelse ycor = mouse-y and mouse-xcor >= menu-options-min-x and mouse-xcor <= menu-options-max-x
+      [set color blue]
+      [set color black]
+    ]
+    
+    if mouse-down? and (
+      member? mouse-y [2 3 4 5] and mouse-xcor >= menu-options-min-x and mouse-xcor <= menu-options-max-x)
+    [
+      while [mouse-down?]
+      []
+      set user-has-selected? true
+      ask game-last-moved-piece
+      [
+        if mouse-y = 5
+        [set breed rooks]
+        if mouse-y = 4
+        [set breed knights]
+        if mouse-y = 3
+        [set breed bishops]
+        if mouse-y = 2
+        [set breed queens]
+        set shape (word breed)
+      ]
+    ]
+  ]
+  
+  ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+  [die]
+end
+
+to-report pawn-promotion-hovering-over-yes?
+  let yes-turtle (display-turtles with [xcor >= 0 and xcor < 3.75 and ycor = 3])
+  if not any? yes-turtle
+  [report false]
+  let yes-turtle-min-x min [xcor] of yes-turtle
+  let yes-turtle-max-x max [xcor] of yes-turtle
+  
+  report mouse-xcor >= yes-turtle-min-x - .5 and mouse-xcor <= yes-turtle-max-x + .5 and (round mouse-ycor) = 3
+end
+
+to-report pawn-promotion-hovering-over-no?
+  let no-turtle (display-turtles with [xcor > 3.75 and xcor <= 7 and ycor = 3])
+  if not any? no-turtle
+  [report false]
+  let no-turtle-min-x min [xcor] of no-turtle
+  let no-turtle-max-x max [xcor] of no-turtle
+  
+  report mouse-xcor >= no-turtle-min-x - .5 and mouse-xcor <= no-turtle-max-x + .5 and (round mouse-ycor) = 3
+end
