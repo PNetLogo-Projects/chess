@@ -59,3 +59,10 @@ to pawn-reset-can-be-enpassanted
   ask pawns
   [set can-be-enpassanted? false]
 end
+
+to-report pawn-can-be-promoted? [pawn-piece]
+  let can-be-promoted? false
+  ask pawn-piece
+  [set can-be-promoted? (breed = pawns and (ycor = 0 or ycor = 7))]
+  report can-be-promoted?
+end
