@@ -68,11 +68,11 @@ to-report pieces-valid-piece?
 end
 
 to-report pieces-enemies
-  report turtles with [color != [color] of myself and pieces-valid-piece?]
+  report turtles with [pieces-valid-piece? and color != [color] of myself]
 end
 
 to-report pieces-allies
-  report turtles with [color = [color] of myself and pieces-valid-piece?]
+  report turtles with [pieces-valid-piece? and color = [color] of myself]
 end
 
 to-report pieces
