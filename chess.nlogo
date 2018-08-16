@@ -546,6 +546,11 @@ Rectangle -7500403 true true 120 150 165 165
 Rectangle -7500403 true true 105 165 120 180
 Rectangle -7500403 true true 120 120 165 135
 
+alpha-background
+false
+0
+Rectangle -7500403 true true 0 0 300 300
+
 b
 false
 0
