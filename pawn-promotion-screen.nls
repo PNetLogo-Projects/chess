@@ -60,6 +60,7 @@ to animate-pawn-promotion-yes-or-no-screen
       ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
       [die]
     ]
+    sync-screen
   ]
 end
 
@@ -120,6 +121,7 @@ to animate-pawn-promotion-selection-screen
         set shape (word breed)
       ]
     ]
+    sync-screen
   ]
   
   ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
