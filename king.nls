@@ -4,7 +4,8 @@ to king-mark-valid-move-spots
   ask turtles with [color != my-color]
   [pieces-mark-valid-captures always-mark?]
   
-  let valid-move-spots neighbors with [not marked? and not any? turtles-here with [color = my-color]]
+  let valid-move-spots (
+    neighbors with [not marked? and within-board-bounds? pxcor pycor and not any? turtles-here with [color = my-color]])
   reset-marks
 
   king-mark-valid-castle-spots
@@ -16,7 +17,7 @@ end
 to king-mark-valid-capture-spots [always-mark?]
   ifelse always-mark?
   [
-    ask neighbors
+    ask neighbors with [within-board-bounds? pxcor pycor]
     [set marked? true]
   ]
   [king-mark-valid-move-spots]
