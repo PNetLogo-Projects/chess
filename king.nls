@@ -1,7 +1,7 @@
 to king-mark-valid-move-spots
   let my-color color
   let always-mark? true
-  ask turtles with [color != my-color]
+  ask pieces-enemies
   [pieces-mark-valid-captures always-mark?]
   
   let valid-move-spots (
