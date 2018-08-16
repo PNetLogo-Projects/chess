@@ -56,17 +56,17 @@ to animate-settings-screen
     
     ask previous-turtle
     [
-      ifelse hovering-over-previous?
+      ifelse settings-hovering-over-previous?
       [set color 125]
       [set color 115]
     ]
     ask next-turtle
     [
-      ifelse hovering-over-next?
+      ifelse settings-hovering-over-next?
       [set color 125]
       [set color 115]
     ]
-    if mouse-down? and hovering-over-previous?
+    if mouse-down? and settings-hovering-over-previous?
     [
       set settings-game-clock-time-index ((settings-game-clock-time-index - 1) mod (length settings-game-clock-times))
       ask settings-game-clock-time-turtles
@@ -76,7 +76,7 @@ to animate-settings-screen
       while [mouse-down?]
       []
     ]
-    if mouse-down? and hovering-over-next?
+    if mouse-down? and settings-hovering-over-next?
     [
       set settings-game-clock-time-index ((settings-game-clock-time-index + 1) mod (length settings-game-clock-times))
       ask settings-game-clock-time-turtles
@@ -96,23 +96,23 @@ to animate-settings-screen
     
     ask ok-turtles
     [
-      ifelse hovering-over-ok?
+      ifelse settings-hovering-over-ok?
       [set color 125]
       [set color 115]
     ]
     ask cancel-turtles
     [
-      ifelse hovering-over-cancel?
+      ifelse settings-hovering-over-cancel?
       [set color 125]
       [set color 115]
     ]
-    if mouse-down? and hovering-over-ok?
+    if mouse-down? and settings-hovering-over-ok?
     [
       update-settings-variables
       save-settings-to-file settings-config-filename
       set user-has-confirmed? true
     ]
-    if mouse-down? and hovering-over-cancel?
+    if mouse-down? and settings-hovering-over-cancel?
     [set user-has-cancelled? true]
   ]
   
@@ -182,19 +182,19 @@ to save-settings-to-file [filename]
   [user-message "There was an error writing settings to config file!"]
 end
 
-to-report hovering-over-ok?
+to-report settings-hovering-over-ok?
   let ok-turtles (display-turtles with [xcor < 6 and ycor = .5])
   report (mouse-ycor >= 0 and mouse-ycor <= 1 and 
     mouse-xcor >= min [xcor] of ok-turtles and mouse-xcor <= max [xcor] of ok-turtles)
 end
 
-to-report hovering-over-cancel?
+to-report settings-hovering-over-cancel?
   let cancel-turtles (display-turtles with [xcor > 6 and ycor = .5])
   report (mouse-ycor >= 0 and mouse-ycor <= 1 and 
     mouse-xcor >= min [xcor] of cancel-turtles and mouse-xcor <= max [xcor] of cancel-turtles)
 end
 
-to-report hovering-over-previous?
+to-report settings-hovering-over-previous?
   if not any? display-turtles with [shape = "<"]
   [report false]
   let previous-turtle (one-of display-turtles with [shape = "<"])
@@ -204,7 +204,7 @@ to-report hovering-over-previous?
     mouse-ycor >= previous-ycor - .5 and mouse-ycor <= previous-ycor + .5)
 end
 
-to-report hovering-over-next?
+to-report settings-hovering-over-next?
   if not any? display-turtles with [shape = ">"]
   [report false]
   let next-turtle (one-of display-turtles with [shape = ">"])
