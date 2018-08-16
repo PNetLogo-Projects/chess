@@ -16,12 +16,12 @@ end
 to pawn-mark-valid-capture-spots [always-mark?]
   let direction ((heading / -90) + 1)
   let my-color  color
-  ask (patch-set (patch-at -1 direction) (patch-at 1 direction))
+  ask (patch-set (patch-at -1 direction) (patch-at 1 direction)) with [within-board-bounds? pxcor pycor]
   [
     if any? turtles-here with [color != my-color] or always-mark?
     [set marked? true]
   ]
-  ask (patch-set (patch-left-and-ahead 90 1) (patch-right-and-ahead 90 1))
+  ask (patch-set (patch-left-and-ahead 90 1) (patch-right-and-ahead 90 1)) with [within-board-bounds? pxcor pycor]
   [
     ask pawns-here with [can-be-enpassanted?]
     [
@@ -51,8 +51,6 @@ to pawn-assess-capture-by-enpassant
       die
     ]
   ]
-  ask other pawns
-  [set can-be-enpassanted? false]
 end
 
 to pawn-reset-can-be-enpassanted
