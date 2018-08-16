@@ -57,6 +57,14 @@ to reset-marks
   sync-screen
 end
 
+to treset-marks
+  ask board-patches
+  [
+    set marked? false
+    set pcolor orig-color
+  ]
+end
+
 to save-marks-to-saved-marked
   ask board-patches
   [set saved-marked? marked?]

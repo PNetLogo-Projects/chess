@@ -6,7 +6,7 @@ to king-mark-valid-move-spots
   
   let valid-move-spots (
     neighbors with [not marked? and within-board-bounds? pxcor pycor and not any? turtles-here with [color = my-color]])
-  reset-marks
+  treset-marks
 
   king-mark-valid-castle-spots
   ask valid-move-spots
@@ -74,7 +74,7 @@ to-report king-get-rooks-that-can-castle
       [set rooks-can-castle-list (lput rook-candidate rooks-can-castle-list)]
     ]
   ]
-  reset-marks
+  treset-marks
   report rooks-can-castle-list
 end
 
@@ -85,7 +85,7 @@ to king-mark-valid-castle-spots
   ask pieces-enemies
   [pieces-mark-valid-captures always-mark?]
   let king-in-danger marked?
-  reset-marks
+  treset-marks
   
   if not king-in-danger
   [

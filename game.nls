@@ -37,6 +37,7 @@ end
 
 to setup-game
   ca
+  reset-ticks
   initialize-constants
   initialize-globals
   

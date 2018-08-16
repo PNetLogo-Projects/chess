@@ -82,6 +82,7 @@ end
 
 to sync-screen
   wait .01
+  tick
 end
 @#$#@#$#@
 GRAPHICS-WINDOW

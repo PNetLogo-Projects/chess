@@ -126,7 +126,7 @@ to pieces-ensure-moves-will-not-danger-king
       ask other-turtles
       [setxy -1 0]
     ]
-    reset-marks
+    treset-marks
     ask pieces-enemies
     [pieces-mark-valid-captures true]
     if not king-is-in-danger?
@@ -134,7 +134,7 @@ to pieces-ensure-moves-will-not-danger-king
     ask other-turtles
     [setxy [xcor] of myself [ycor] of myself]
   ]
-  reset-marks
+  treset-marks
   setxy original-xcor original-ycor
   ask patch-set actual-move-candidates
   [set marked? true]
