@@ -230,13 +230,39 @@ to undo
 end
 
 to-report game-over-by-checkmate?
+  if not king-is-in-danger?
+  [report false]
   reset-marks
+  let checkmate? true
   ask kings with [color = game-turn-color]
   [
     ask pieces-allies
-    [pieces-mark-valid-moves]
+    [
+      pieces-mark-valid-moves
+      if any? board-patches with [marked?]
+      [set checkmate? false]
+    ]
   ]
-  report not any? patches with [marked?]
+  reset-marks
+  report checkmate?
+end
+
+to-report game-over-by-stalemate?
+  if king-is-in-danger?
+  [report false]
+  reset-marks
+  let stalemate? true
+  ask kings with [color = game-turn-color]
+  [
+    ask pieces-allies
+    [
+      pieces-mark-valid-moves
+      if any? board-patches with [marked?]
+      [set stalemate? false]
+    ]
+  ]
+  reset-marks
+  report stalemate?
 end
 
 to-report game-draw-by-fifty-moves-rule?
