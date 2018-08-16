@@ -59,42 +59,41 @@ end
 to handle-user-input
   let mouse-x round mouse-xcor
   let mouse-y round mouse-ycor
-  let patches-at-mouse-coordinates (patches with [pxcor = mouse-x and pycor = mouse-y])
+  let patch-at-mouse-coordinates (one-of patches with [pxcor = mouse-x and pycor = mouse-y])
+  let turtles-at-mouse-coordinates (
+    pieces with [xcor = [pxcor] of patch-at-mouse-coordinates and ycor = [pycor] of patch-at-mouse-coordinates])
   
-  ask patches-at-mouse-coordinates
+  if any? turtles-at-mouse-coordinates with [color = game-turn-color]
   [
-    if any? turtles-here with [color = game-turn-color]
+    reset-marks
+    set game-selected-piece one-of turtles-at-mouse-coordinates
+    ask game-selected-piece
+    [pieces-mark-valid-moves]
+    highlight-marked
+  ]
+  if not any? turtles-at-mouse-coordinates with [color = game-turn-color] and (within-board-bounds? mouse-x mouse-y)
+  [
+    update-game-move-history
+    set game-last-move-was-capture? false
+    if [marked?] of patch-at-mouse-coordinates
     [
-      reset-marks
-      set game-selected-piece one-of turtles-here
       ask game-selected-piece
-      [pieces-mark-valid-moves]
-      highlight-marked
-    ]
-    if not any? turtles-here with [color = game-turn-color] and (within-board-bounds? mouse-x mouse-y)
-    [
-      update-game-move-history
-      set game-last-move-was-capture? false
-      if marked?
       [
-        ask game-selected-piece
+        setxy mouse-x mouse-y
+        tpieces-assess-if-move-was-special
+        set moved? true
+        ask other turtles-here
         [
-          setxy mouse-x mouse-y
-          pieces-assess-if-move-was-special
-          set moved? true
-          ask other turtles-here
-          [
-            set game-last-move-was-capture? true
-            die
-          ]
-          set game-last-moved-piece self
+          set game-last-move-was-capture? true
+          die
         ]
-        set game-selected-piece nobody
-        advance-fifty-moves-rule-counter
-        reset-marks
-        next-turn
-        switch-view
+        set game-last-moved-piece self
       ]
+      set game-selected-piece nobody
+      advance-fifty-moves-rule-counter
+      reset-marks
+      next-turn
+      switch-view
     ]
   ]
 end
