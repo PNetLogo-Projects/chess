@@ -7,6 +7,7 @@ to board-initialize-constants
   set board-light-color 8
   set board-dark-color 57
   set margin-color brown
+  set board-patches (patches with [pxcor >= 0 and pxcor <= 7 and pycor >= 0 and pycor <= 7])
 end
 
 to render-board 
@@ -33,7 +34,7 @@ to color-patch-spot [colour save?]
 end
 
 to flip-board
-  ask patches with [within-board-bounds? pxcor pycor]
+  ask board-patches
   [
     ifelse pcolor = board-light-color
     [
@@ -48,7 +49,7 @@ to flip-board
 end
 
 to reset-marks
-  ask patches with [marked?]
+  ask board-patches
   [
     set marked? false
     set pcolor orig-color
@@ -57,12 +58,12 @@ to reset-marks
 end
 
 to save-marks-to-saved-marked
-  ask patches with [true]
+  ask board-patches
   [set saved-marked? marked?]
 end
 
 to load-marks-from-saved-marked
-  ask patches with [true]
+  ask board-patches
   [set marked? saved-marked?]
 end
 

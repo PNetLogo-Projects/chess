@@ -22,6 +22,7 @@ globals [
   board-light-color
   board-dark-color
   margin-color
+  board-patches
 
   pieces-left-direction
   pieces-right-direction

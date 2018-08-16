@@ -71,7 +71,7 @@ end
 to handle-user-input
   let mouse-x round mouse-xcor
   let mouse-y round mouse-ycor
-  let patch-at-mouse-coordinates (one-of patches with [pxcor = mouse-x and pycor = mouse-y])
+  let patch-at-mouse-coordinates (one-of board-patches with [pxcor = mouse-x and pycor = mouse-y])
   let turtles-at-mouse-coordinates (
     pieces with [xcor = [pxcor] of patch-at-mouse-coordinates and ycor = [pycor] of patch-at-mouse-coordinates])
   
@@ -169,7 +169,7 @@ end
 to highlight-marked
   if settings-highlight-valid-move?
   [
-    ask patches with [marked?]
+    ask board-patches with [marked?]
     [set pcolor yellow]
     sync-screen
   ]
