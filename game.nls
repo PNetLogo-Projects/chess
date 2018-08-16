@@ -193,12 +193,12 @@ to handle-undo
   [
     ask game-undo-turtles
     [
-      ifelse hovering-over-undo?
+      ifelse game-hovering-over-undo?
       [set color white]
       [set color black]
     ]
   ]
-  if mouse-down? and hovering-over-undo?
+  if mouse-down? and game-hovering-over-undo?
   [
     undo
     while [mouse-down?]
@@ -270,7 +270,7 @@ to next-turn
   ]
 end
 
-to-report hovering-over-undo?
+to-report game-hovering-over-undo?
   if game-undo-turtles = nobody
   [report false]
   let undo-min-x min [xcor] of game-undo-turtles
