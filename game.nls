@@ -108,6 +108,18 @@ to handle-user-input
       pieces-assess-if-move-was-special 
       next-turn
       switch-view
+      if game-over-by-checkmate?
+      [
+        ifelse game-turn = game-white-turn
+        [show-game-over-by-checkmate-screen "Black"]
+        [show-game-over-by-checkmate-screen "White"]
+      ]
+      if game-over-by-stalemate?
+      [show-game-over-by-stalemate-screen]
+      if game-draw-by-threefold-repetition?
+      [show-draw-offer-screen "threefold repetition"]
+      if game-draw-by-fifty-moves-rule?
+      [show-draw-offer-screen "fifty moves rule"]
     ]
   ]
 end
