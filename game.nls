@@ -84,7 +84,7 @@ to handle-user-input
     [pieces-mark-valid-moves]
     highlight-marked
   ]
-  if not any? turtles-at-mouse-coordinates with [color = game-turn-color] and (within-board-bounds? mouse-x mouse-y)
+  if game-selected-piece != nobody and (within-board-bounds? mouse-x mouse-y)
   [
     update-game-move-history
     set game-last-move-was-capture? false
@@ -260,7 +260,6 @@ to-report game-draw-by-threefold-repetition?
     [set repetition (repetition + 1)]
   ]
   
-  show repetition
   report repetition >= 3
 end
 
