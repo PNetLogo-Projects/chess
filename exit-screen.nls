@@ -1,0 +1,140 @@
+to draw-exit-button
+  ask display-turtles with [xcor = 15 and ycor = 7]
+  [die]
+  
+  create-display-turtles 1 [
+    setxy 15 7
+    set shape "quit"
+    set size .75
+  ]
+  
+  sync-screen
+end
+
+to assess-if-user-wants-to-exit
+  if mouse-down? and exit-screen-hovering-over-exit?
+  [
+    while [mouse-down?]
+    []
+    draw-exit-screen
+    animate-exit-screen
+  ]
+end
+
+to draw-exit-screen
+  ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+  [die]
+  
+  crt 1
+  [
+    set breed display-turtles
+    setxy 3.5 3.5
+    set shape "alpha-background"
+    set size 8
+    set color [255 255 255 210]
+  ]
+  
+  (draw-menu (list
+    (list "Resume Game" [3.75 5] menu-center-align 1 black)
+    (list "Save Game" [3.75 4] menu-center-align 1 black)
+    (list "Quit Game" [3.75 3] menu-center-align 1 black)
+    (list "Save and Quit Game" [3.75 2] menu-center-align 1 black)))
+  
+  sync-screen
+end
+
+to animate-exit-screen
+  let user-has-selected? false
+  let menu-option-turtles (
+    display-turtles with [within-board-bounds? (round xcor) (round ycor) and member? ycor [2 3 4 5]])
+  let menu-one-turtles-min-x (min [xcor] of menu-option-turtles with [ycor = 5])
+  let menu-one-turtles-max-x (max [xcor] of menu-option-turtles with [ycor = 5])
+  let menu-two-turtles-min-x (min [xcor] of menu-option-turtles with [ycor = 4])
+  let menu-two-turtles-max-x (max [xcor] of menu-option-turtles with [ycor = 4])
+  let menu-three-turtles-min-x (min [xcor] of menu-option-turtles with [ycor = 3])
+  let menu-three-turtles-max-x (max [xcor] of menu-option-turtles with [ycor = 3])
+  let menu-four-turtles-min-x (min [xcor] of menu-option-turtles with [ycor = 2])
+  let menu-four-turtles-max-x (max [xcor] of menu-option-turtles with [ycor = 2])
+  
+  while [not user-has-selected?]
+  [
+    let mouse-y (round mouse-ycor)
+    
+    ask menu-option-turtles with [ycor = 5]
+    [
+      ifelse mouse-xcor >= menu-one-turtles-min-x and mouse-xcor <= menu-one-turtles-max-x and mouse-y = 5
+      [set color blue]
+      [set color black]
+    ]
+    ask menu-option-turtles with [ycor = 4]
+    [
+      ifelse mouse-xcor >= menu-two-turtles-min-x and mouse-xcor <= menu-two-turtles-max-x and mouse-y = 4
+      [set color blue]
+      [set color black]
+    ]
+    ask menu-option-turtles with [ycor = 3]
+    [
+      ifelse mouse-xcor >= menu-three-turtles-min-x and mouse-xcor <= menu-three-turtles-max-x and mouse-y = 3
+      [set color blue]
+      [set color black]
+    ]
+    ask menu-option-turtles with [ycor = 2]
+    [
+      ifelse mouse-xcor >= menu-four-turtles-min-x and mouse-xcor <= menu-four-turtles-max-x and mouse-y = 2
+      [set color blue]
+      [set color black]
+    ]
+    
+    if mouse-down? and (
+      mouse-xcor >= menu-one-turtles-min-x and mouse-xcor <= menu-one-turtles-max-x and mouse-y = 5)
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+    ]
+    
+    if mouse-down? and (
+      mouse-xcor >= menu-two-turtles-min-x and mouse-xcor <= menu-two-turtles-max-x and mouse-y = 4)
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+      let success save-game
+    ]
+    
+    if mouse-down? and (
+      mouse-xcor >= menu-three-turtles-min-x and mouse-xcor <= menu-three-turtles-max-x and mouse-y = 3)
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+      draw-splash-screen
+      animate-splash-screen
+    ]
+    
+    if mouse-down? and (
+      mouse-xcor >= menu-four-turtles-min-x and mouse-xcor <= menu-four-turtles-max-x and mouse-y = 2)
+    [
+      set user-has-selected? true
+      while [mouse-down?]
+      []
+      ask display-turtles with [within-board-bounds? (round xcor) (round ycor)]
+      [die]
+      let success save-game
+      draw-splash-screen
+      animate-splash-screen
+    ]
+    
+    sync-screen
+  ]
+end
+
+to-report exit-screen-hovering-over-exit?
+  report (round mouse-xcor) = 15 and (round mouse-ycor) = 7
+end
