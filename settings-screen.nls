@@ -114,6 +114,7 @@ to animate-settings-screen
     ]
     if mouse-down? and settings-hovering-over-cancel?
     [set user-has-cancelled? true]
+    sync-screen
   ]
   
   draw-splash-screen
@@ -130,6 +131,7 @@ to update-settings-screen
   [set hidden? not settings-switch-view?]
   ask check-turtles with [xcor = -3 and ycor = 2]
   [set hidden? not settings-allow-undo?]
+  sync-screen
 end
 
 to update-settings-variables
