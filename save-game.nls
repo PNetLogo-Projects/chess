@@ -22,7 +22,7 @@ end
 to write-game-to-file [filename]
   let fen-notation save-game-to-fen-notation
   
-  (let rendered-turtles temp-render-string "Saving..." [2 4] blue 1)
+  (let rendered-turtles temp-render-string "Saving..." [2 4] 1 blue)
   sync-screen
   
   file-open filename
