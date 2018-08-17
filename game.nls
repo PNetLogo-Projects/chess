@@ -43,6 +43,7 @@ to setup-game
   
   render-board
   render-pieces
+  draw-exit-button
   sync-screen
 end
 
@@ -66,6 +67,7 @@ to main-loop
     draw-undo
     handle-undo
     update-game-clock
+    assess-if-user-wants-to-exit
   ]
 end
 
