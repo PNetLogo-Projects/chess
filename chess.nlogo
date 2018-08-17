@@ -80,6 +80,11 @@ to initialize-globals
   settings-initialize-globals
 end
 
+to startup
+  draw-splash-screen
+  animate-splash-screen
+end
+
 to sync-screen
   wait .01
   tick
@@ -106,8 +111,8 @@ GRAPHICS-WINDOW
 15
 0
 7
-0
-0
+1
+1
 1
 ticks
 30.0
