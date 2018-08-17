@@ -15,6 +15,7 @@ to draw-splash-screen
   ]
   ask one-of turtles with [shape = "knights"]
   [set xcor 12 set shape "flipped-knights"]
+  reset-ticks
   sync-screen
 end
 
