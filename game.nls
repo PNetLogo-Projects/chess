@@ -247,14 +247,21 @@ to-report game-over-by-checkmate?
   if not king-is-in-danger?
   [report false]
   reset-marks
+  let possible-checkmate? true
   let checkmate? true
   ask kings with [color = game-turn-color]
   [
     ask pieces-allies
     [
-      pieces-mark-valid-moves
-      if any? board-patches with [marked?]
-      [set checkmate? false]
+      if possible-checkmate?
+      [
+        pieces-mark-valid-moves
+        if any? board-patches with [marked?]
+        [
+          set possible-checkmate? false
+          set checkmate? false
+        ]
+      ]
     ]
   ]
   reset-marks
@@ -265,14 +272,21 @@ to-report game-over-by-stalemate?
   if king-is-in-danger?
   [report false]
   reset-marks
+  let possible-stalemate? true
   let stalemate? true
   ask kings with [color = game-turn-color]
   [
     ask pieces-allies
     [
-      pieces-mark-valid-moves
-      if any? board-patches with [marked?]
-      [set stalemate? false]
+      if possible-stalemate?
+      [
+        pieces-mark-valid-moves
+        if any? board-patches with [marked?]
+        [
+          set possible-stalemate? false
+          set stalemate? false
+        ]
+      ]
     ]
   ]
   reset-marks
