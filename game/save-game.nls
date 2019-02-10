@@ -1,13 +1,13 @@
 to-report save-game
   let filename (user-input "What do you want to name the save file?  (Do not include file extension)")
-  set filename (word filename ".sav")
+  set filename (word "saves/" filename ".sav")
   let file-does-exists? (file-exists? filename)
   file-close
   
   if file-does-exists?
   [
-    let filename-no-ext (substring filename 0 ((length filename) - 4))
-    if user-yes-or-no? (word "The file you specified, " filename-no-ext " already exists... Should I overwrite it?")
+    let filename-no-ext-no-dir (substring filename 6 ((length filename) - 4))
+    if user-yes-or-no? (word "The file you specified, " filename-no-ext-no-dir " already exists... Should I overwrite it?")
     [
       file-delete filename
       (write-game-to-file filename)

@@ -1,21 +1,22 @@
 __includes [
-  "board.nls"
-  "pieces.nls"
+  "game/board.nls"
 
-  "rook.nls"
-  "knight.nls"
-  "bishop.nls"
-  "queen.nls"
-  "king.nls"
-  "pawn.nls"
+  "game/pieces/pieces.nls"
+  "game/pieces/rook.nls"
+  "game/pieces/knight.nls"
+  "game/pieces/bishop.nls"
+  "game/pieces/queen.nls"
+  "game/pieces/king.nls"
+  "game/pieces/pawn.nls"
 
-  "files.nls"
-  "menu.nls"
-  "text.nls"
-  "string.nls"
-  "time.nls"
+  "game/menus/menu.nls"
 
-  "game.nls"
+  "game/files.nls"
+  "game/text.nls"
+  "game/string.nls"
+  "game/time.nls"
+
+  "game/game.nls"
 ]
 
 globals [

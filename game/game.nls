@@ -1,13 +1,13 @@
 __includes [
-  "splash-screen.nls"
-  "settings-screen.nls"
-  "exit-screen.nls"
-  "game-over-screen.nls"
+  "game/menus/exit-screen.nls"
+  "game/menus/game-over-screen.nls"
+  "game/menus/splash-screen.nls"
+  "game/menus/settings-screen.nls"
   
-  "pawn-promotion-screen.nls"
+  "game/menus/pawn-promotion-screen.nls"
   
-  "load-game.nls"
-  "save-game.nls"
+  "game/load-game.nls"
+  "game/save-game.nls"
 ]
 
 to game-initialize-constants

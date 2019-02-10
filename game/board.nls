@@ -1,6 +1,6 @@
 __includes [
-  "load-fen-notation.nls"
-  "save-fen-notation.nls"
+  "game/fen_notation/load-fen-notation.nls"
+  "game/fen_notation/save-fen-notation.nls"
 ]
 
 to board-initialize-constants

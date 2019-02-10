@@ -1,6 +1,6 @@
 to-report load-game
   let filename (user-input "What do you want to name the save file?  (Do not include file extension)")
-  set filename (word filename ".sav")
+  set filename (word "saves/" filename ".sav")
   let file-does-exists? (file-exists? filename)
   file-close
   
