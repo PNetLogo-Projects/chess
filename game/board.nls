@@ -52,7 +52,8 @@ to reset-marks
   ask board-patches
   [
     set marked? false
-    set pcolor orig-color
+    if pcolor != blue
+    [set pcolor orig-color]
   ]
   sync-screen
 end
@@ -61,7 +62,8 @@ to treset-marks
   ask board-patches
   [
     set marked? false
-    set pcolor orig-color
+    if pcolor != blue
+    [set pcolor orig-color]
   ]
 end
 
