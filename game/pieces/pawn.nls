@@ -21,7 +21,7 @@ to pawn-mark-valid-capture-spots [always-mark?]
     if any? turtles-here with [color != my-color] or always-mark?
     [set marked? true]
   ]
-  ask (patch-set (patch-left-and-ahead 90 1) (patch-right-and-ahead 90 1)) with [within-board-bounds? pxcor pycor]
+  ask (patch-set (patch-at -1 0) (patch-at 1 0)) with [within-board-bounds? pxcor pycor]
   [
     ask pawns-here with [can-be-enpassanted?]
     [
@@ -54,7 +54,7 @@ to pawn-assess-capture-by-enpassant
 end
 
 to pawn-reset-can-be-enpassanted
-  ask pawns
+  ask pawns with [color != [color] of myself]
   [set can-be-enpassanted? false]
 end
 

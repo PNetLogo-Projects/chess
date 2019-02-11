@@ -80,11 +80,12 @@ to handle-user-input
   
   if any? turtles-at-mouse-coordinates with [color = game-turn-color]
   [
-   if game-last-moved-piece != nobody
-   [
+    if game-last-moved-piece != nobody
+    [
       ask game-last-moved-piece
       [set pcolor orig-color]
     ]
+    sync-screen
     reset-marks
     set game-selected-piece one-of turtles-at-mouse-coordinates
     ask game-selected-piece
@@ -104,7 +105,6 @@ to handle-user-input
         set moved? true
         ask other turtles-here
         [
-          set pcolor orig-color
           set game-last-move-was-capture? true
           die
         ]

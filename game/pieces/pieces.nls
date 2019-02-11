@@ -147,12 +147,12 @@ to pieces-assess-if-move-was-special
 end
 
 to tpieces-assess-if-move-was-special
-  ifelse breed = pawns
+  if breed = pawns
   [
     pawn-assess-can-be-enpassanted
     pawn-assess-capture-by-enpassant
   ]
-  [pawn-reset-can-be-enpassanted]
+  pawn-reset-can-be-enpassanted
   if breed = kings
   [king-assess-is-attempt-to-castle]
 end
