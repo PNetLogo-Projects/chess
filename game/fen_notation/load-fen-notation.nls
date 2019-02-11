@@ -22,7 +22,7 @@ to load-board-from-fen-notation [fen-notation]
     [
       let next-bit (substring board 0 end-pos)
       carefully 
-      [set empty-spaces ((read-from-string next-bit) - 1)]
+      [set empty-spaces ((read-from-string next-bit)  - 1)]
       [pieces-spawn-piece-from-notation-at-square next-bit board-square]
       set board (substring board (end-pos + 1) (length board))
       set end-pos (position "|" board)

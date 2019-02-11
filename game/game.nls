@@ -94,10 +94,10 @@ to handle-user-input
   ]
   if game-selected-piece != nobody and (within-board-bounds? mouse-x mouse-y)
   [
-    update-game-move-history
-    set game-last-move-was-capture? false
     if [marked?] of patch-at-mouse-coordinates
     [
+      set game-last-move-was-capture? false
+      update-game-move-history
       ask game-selected-piece
       [
         setxy mouse-x mouse-y
@@ -111,7 +111,6 @@ to handle-user-input
         set game-last-moved-piece self
         set pcolor blue
       ]
-      sync-screen
       set game-selected-piece nobody
       advance-fifty-moves-rule-counter
       reset-marks
@@ -245,6 +244,7 @@ end
 to undo
   if length game-move-history > 0
   [
+    ask board-patches [set pcolor orig-color]
     let last-move (last game-move-history)
     set game-move-history (but-last game-move-history)
     load-game-from-fen-notation (last-move)

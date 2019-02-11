@@ -31,6 +31,8 @@ to-report board-fen-notation-field
       [set empty-spots (empty-spots + 1)]
     ]
   ]
+  if empty-spots > 0
+  [set board (word board empty-spots "|")]
   
   report board
 end
@@ -54,6 +56,8 @@ to-report heading-attributes-fen-notation-field
       [set empty-spots (empty-spots + 1)]
     ]
   ]
+  if empty-spots > 0
+  [set headings-attributes (word headings-attributes empty-spots "|")]
   
   report headings-attributes
 end
@@ -77,6 +81,8 @@ to-report moved-attributes-fen-notation-field
       [set empty-spots (empty-spots + 1)]
     ]
   ]
+  if empty-spots > 0
+  [set moved-attributes (word moved-attributes empty-spots "|")]
   
   report moved-attributes
 end
